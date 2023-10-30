@@ -1,22 +1,21 @@
 <template>
   <div class="home">
-    <my-swiper :news="news" :arrows="true" :dots="true" :showBottom="false"></my-swiper>
+    <swiper-slides :slides="slide" :arrows="true" :dots="true" :showBottom="false"></swiper-slides>
     <div class="body">
       <div class="news">
         <div class="swiper">
-          <my-swiper
+          <swiper-news
           :showBottom="true"
           :news="news"
           :arrows="false"
           :dots="true"
           class="normal"
-          ></my-swiper>
+          ></swiper-news>
         </div>
         <div class="news-list">
           <div v-for="item in news" :key="item" class="item"
           @click="
           () => {
-            setNewsDetail(item.detail);
             $router.push({ name: 'newsDetail', params: { id: item.id } })
             }"
             >
@@ -117,18 +116,29 @@
 <script >
 import { Carousel } from "ant-design-vue";
 import Block from "../components/Block.vue";
-import MySwiper from "../components/MySwiper.vue";
+import SwiperNews from "../components/SwiperNews.vue";
+import SwiperSlides from "../components/SwiperSlides.vue";
 import SvgIcon from "../components/SvgIcon.vue";
 import { fetchMainNewsList, fetchSubNewsList, homeNaviIds } from "../utils/home";
-import { mapMutations } from "vuex";
+import { getSlides } from '../api/router';
 export default {
-  components: { MySwiper, Block, ACarousel: Carousel,SvgIcon },
+  components: { SwiperNews, Block, ACarousel: Carousel,SvgIcon, SwiperSlides },
   name: "home",
   async mounted() {
     console.log(this.$route);
     console.log(this.$router);
     // fetchMainNewsList().then(res => this.news = res);
     console.debug(this.sub_New.length);
+    getSlides().then(res => {
+      console.debug(res);
+      this.slide = res.rows.map( item => {
+        return {
+          url: item.slidUrl,
+          src: item.slidPic,
+          id: item.id
+        }
+      })
+    })
     if(this.sub_New.length === 0) {
     this.news = await fetchMainNewsList();
     Promise.all([fetchSubNewsList(homeNaviIds['sub_1']),
@@ -140,23 +150,18 @@ export default {
                                          }
                                        );
     }
-    // this.subNews_1 = await fetchSuvNewsList(homeNaviIds['sub_1']);
-    // this.subNews_2 = await fetchSuvNewsList(homeNaviIds['sub_2']);
-    // this.subNews_3 = await fetchSuvNewsList(homeNaviIds['sub_3']);
     console.debug(this.sub_New)
     this.main_url = this.$router.getRoutes().find(item => item.meta.id === homeNaviIds['main']).path;
     console.debug(this.main_url);
   },
   data() {
     return {
+      slides: [],
       news: [{}, {}, {}, {}, {},],
       sub_New: [],
       main_url: '',
       isMoreHover: false,
     };
-  },
-  methods: {
-    ...mapMutations(["setNewsDetail"]),
   },
 };
 </script>

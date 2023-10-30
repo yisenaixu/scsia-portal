@@ -13,7 +13,6 @@
   </template>
   <script>
   import { getPictures } from '../api/router';
-  import {baseURL} from '../utils/request'
   import {Image} from 'ant-design-vue'
   export default {
     name: 'Img',
@@ -38,8 +37,7 @@
     },
     mounted() {
       getPictures(this.$route.meta.id).then(res => {
-        console.debug(res.data[0]);
-        this.imgs = res.data;
+        this.imgs = res.rows;
       })}
   }
   </script>

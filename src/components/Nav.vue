@@ -20,14 +20,18 @@
       </div>
       <div class="nav-right">
         <div class="nav-search">
-           <svg-icon symbolId="icon-search" className="svgIcon"></svg-icon>
+           <svg-icon symbolId="icon-search" className="svgIcon" color="black"></svg-icon>
            <div class="search"> 
             <input type="text">
            </div>
         </div>
         <div class="login-button">
-          <button>登录</button>
-          <button>注册</button>
+          <button>
+            <a href="http://man.dkelab.cn/login">登录</a>
+          </button>
+          <button>
+            <a href="http://man.dkelab.cn/register">注册</a>
+          </button>
         </div>
       </div>
     </nav>

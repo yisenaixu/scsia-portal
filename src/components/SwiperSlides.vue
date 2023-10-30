@@ -22,16 +22,11 @@
             ></svg-icon>
           </div>
         </template>
-        <div class="swiper-news" v-for="item in news" :key="item">
-          <img v-if="item.detail?.newsPic" :src="item.detail?.newsPic" alt="" />
-          <img v-if="!item.detail?.newsPic" src="@/assets/test.jpg" alt="" />
-          <div v-if="showBottom" class="container">
-            <div class="swiper-news-item">
-              {{ item.title }}
-              {{ console.debug("11",item) }}
-              {{ console.debug(news.length) }}
-            </div>
-          </div>
+        <div class="swiper-news" v-for="item in slides" :key="item">
+            <a :href='item?.url'>
+              <img v-if="item?.src" :src="item?.src" alt="" />
+              <img v-if="!item?.src" src="@/assets/test.jpg" alt="" />
+            </a>
         </div>
       </a-carousel>
     </div>
@@ -41,7 +36,7 @@
 import { Carousel } from "ant-design-vue";
 import SvgIcon from "./SvgIcon.vue";
 export default {
-  name: "mySwiper",
+  name: "SwiperSlides",
   components: {
     ACarousel: Carousel,
     SvgIcon,
@@ -51,7 +46,10 @@ export default {
       defaultImg: '@/assets/test.png'
     }
   },
-  props: ["news", "arrows", "dots",'showBottom'],
+  mounted() {
+    console.debug('side',this.slides)
+  },
+  props: ["slides", "arrows", "dots"],
 };
 </script>
 <style lang="scss" scoped>
@@ -66,27 +64,11 @@ export default {
     }
   }
 }
-.normal {
-  width: 790px;
-  height: 400px;
-  flex-shrink: 1;
-  .swiper {
-    width: 100%;
-    height: 100%;
-    :deep(.slick-slide > div) {
-      height: 400px;
-      overflow: hidden;
-    }
-  }
-}
 .swiper-news {
   width: 100%;
   height: 100%;
   cursor: pointer;
   position: relative;
-  &:hover {
-    filter: brightness(1.11);
-  }
   img {
     width: 100%;
     height: 100%;

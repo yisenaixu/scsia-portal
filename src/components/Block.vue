@@ -13,7 +13,6 @@
                 <div v-for="it in news?.news" :key="it" class="list-item"
                 @click="
                     () => {
-                          setNewsDetail(it.detail);
                           $router.push({ name: 'newsDetail', params: { id: it.id } })
                           }">
                   {{ it.title }}
@@ -22,13 +21,9 @@
   </div>
 </template>
 <script>
-import { mapMutations } from 'vuex';
 export default {
     name: 'block',
     props: ['news'],
-    methods: {
-    ...mapMutations(["setNewsDetail"]),
-  },
 }
 </script>
 <style lang="scss" scoped>

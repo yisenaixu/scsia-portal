@@ -4,7 +4,6 @@ import { transformRoutesToNav } from "../utils/router";
 const store = createStore({
    state: { 
     routes: [],
-    newsDetail: '',
   },
   getters: {
     navs(state) {
@@ -17,16 +16,7 @@ const store = createStore({
         console.debug('payload',payload);
         sessionStorage.setItem('routes',JSON.stringify(state.routes))
     },
-    setNewsDetail(state,payload) {
-        state.newsDetail = payload
-    },
-    setNewsDetailNull(state){
-        state.newsDetail = '';
-    }
   },
-  actions: {
-
-  }
 })
 
 export default store;

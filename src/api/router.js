@@ -50,3 +50,10 @@ export function getPictures(id) {
     params: {id},
   })
 }
+
+export function getSlides() {
+  return request({
+    url: `/portal/slides`,
+    method: 'get'
+  })
+}

@@ -7,12 +7,10 @@
         class="list-item"
         @click="
           () => {
-            setNewsDetail(item);
             $router.push({ name: 'newsDetail', params: { id: item.id } });
           }
         "
       >
-        <!-- <div v-for="item in list" :key="item" class="list-item" @click="this.$router.push({name:this.$route.name,meta:{html:item.newsContent}})"> -->
         {{ console.log(item.newsContent) }}
         <div class="title">
           <img src="@/assets/icon-arrowsBlueRight.png" alt="">
@@ -33,7 +31,6 @@
   </div>
 </template>
 <script>
-import { mapMutations } from "vuex";
 import { getNews } from "../api/router";
 import { Pagination } from "ant-design-vue";
 export default {
@@ -46,9 +43,6 @@ export default {
       total: '',
       list: [],
     };
-  },
-  methods: {
-    ...mapMutations(["setNewsDetail"]),
   },
   watch: {
     current(newCur,oldCur) {
