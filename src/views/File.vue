@@ -37,8 +37,7 @@ import { Pagination } from "ant-design-vue";
     components: { APagination: Pagination },
     mounted() {
       getFiles(this.$route.meta.id).then(res => {
-        console.debug(res.data[0].fileUrl);
-        this.files = res.data;
+        this.files = res.rows;
         this.$refs.a.download = baseURL + this.files[0]?.fileUrl
       })
     },

@@ -2,21 +2,26 @@
     <div class="img">
       <div v-for="img in _imgs" :key="img" class="img-item">
         <div class="img-container">
-          <a-image
-        width="300"
-        height="300"
-        :src="img.srcs[0]"/>
-        </div>
+          <a-image-preview-group>
+              <div class="imgs">
+                <a-image
+                v-for="src in img.srcs"
+              :key="src"
+              :src="src"/>
+              </div>
+          </a-image-preview-group>
+         </div>
+         {{ console.log(img) }}
         <div class="title">{{ img.title }}</div>
       </div>
     </div>
   </template>
   <script>
   import { getPictures } from '../api/router';
-  import {Image} from 'ant-design-vue'
+  import {Image, ImagePreviewGroup} from 'ant-design-vue'
   export default {
     name: 'Img',
-    components: {AImage:Image},
+    components: {AImage:Image, AImagePreviewGroup:ImagePreviewGroup},
     data() {
       return {
         imgs: []
@@ -58,8 +63,16 @@
           width: 100%;
           display: flex;
           flex-direction: column;
+          .imgs {
+            height: 200px;
+            overflow: hidden;
+          }
           :deep(img) {
             border-radius: 4px;
+          }
+          :deep(.ant-image .ant-image-img) {
+            width: 100%;
+            height: 200px;
           }
           :deep(.ant-image-mask) {
             border-radius: 4px;
