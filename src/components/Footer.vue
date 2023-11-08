@@ -2,17 +2,9 @@
     <div class="footer">
       <div class="container">
         <div class="footer-top">
-            <img src="@/assets/logo.png" alt="">
-            <!-- <div class="navs">
-                <div class="nav" v-for="nav in navs.filter(item => item.url !== '/')" :key="nav">
-                   <div class="big item"> 
-                      <router-link :to="nav.url">{{nav.title}}</router-link>
-                   </div>
-                   <div class="sub item" v-for="item in nav?.children" :key="item">
-                    <router-link :to="`${nav.url}/${item.url}`">{{item.title}}</router-link>
-                   </div> 
-                </div>
-            </div> -->
+            <div class="img">
+              <img src="@/assets/logo.png" alt="">
+            </div>
         </div>
         <div class="footer-bottom">
             <div class="info">地址：四川省成都市武侯区航空路6号丰德国际A座3栋14楼 邮编：610000</div>
@@ -50,6 +42,15 @@ export default {
         display: flex;
         justify-content: space-around;
         border-bottom: 2px solid rgba($color: #fff, $alpha: .8);
+        .img {
+          height: 120px;
+          widows: 240px;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
         .navs {
             display: flex;
             .nav {

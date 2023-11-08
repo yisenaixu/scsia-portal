@@ -2,7 +2,9 @@
   <div class="nav">
     <nav>
       <div class="nav-left">
-        <img src="@/assets/logo.png" alt="" />
+        <div class="img">
+          <img src="@/assets/logo.png" alt="" />
+        </div>
       </div>
       <div
         class="nav-middle"
@@ -98,12 +100,15 @@ export default {
     }
     .nav-left {
       justify-content: start;
-      img {
-        min-width: 260px;
-        width: 50%;
-        height: 50px;
+      .img {
+        margin-left: 30px;
+        height: 64px;
+        width: 117px;
+        img {
+        width: 100%;
+        height: 100%;
         object-fit: cover;
-        margin-left: 20px;
+      }
       }
     }
     .nav-middle {
