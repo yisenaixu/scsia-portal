@@ -1,5 +1,8 @@
 <template>
   <div class="content">
+    <div class="ba-img">
+        <img src="@/assets/banner.png" alt="">
+      </div>
     <div class="container">
       <div class="navs">
         <div class="nav big">
@@ -19,10 +22,20 @@
         <div class="crumb-nav">
           <router-link class="crumb-nav-home" to="/">
             <svg-icon symbolId="icon-home" className="svgIcon"></svg-icon> 首页</router-link>
+            &nbsp;
             >
-          <router-link class="active" :to="$route.path">{{ $route.name }}</router-link>
+            &nbsp;
+          <div class="crumb-nav-item"  v-for="(item, index) in this.$route.matched" :key="item" v-show="index!==0">
+            <router-link :to="item.name" :class="{active: index === this.$route.matched.length-1}">{{ item.name }}</router-link>
+            <span v-show="index !== this.$route.matched.length-1">
+              &nbsp;
+              >
+              &nbsp;
+            </span>
+          </div>
+          <!-- <router-link class="active" :to="$route.path"> {{ $route.name }} </router-link> -->
          </div>
-        <router-view :key="$route.name + $route.params"></router-view>
+        <router-view></router-view>
       </div>
     </div>
   </div>
@@ -56,12 +69,21 @@ export default {
   max-width: 1200px;
   margin: 50px auto;
   overflow: hidden;
+  .ba-img {
+    left: 0;
+    position: absolute;
+    z-index: 0;
+    img {
+      width: 100%;
+    }
+  }
   .container {
     display: flex;
     justify-content: space-around;
     // align-items: center;
-    margin-top: 50px;
+    margin-top: 170px;
     .info {
+        margin-top: 30px;
         width: 80%;
         min-height: 600px;
         position: relative;;
@@ -77,8 +99,10 @@ export default {
             display: flex;
             align-items: center;
           }
-          .active {
+          .crumb-nav-item {
+            .active {
             color: #1538D6;
+          }
           }
         }
     }
@@ -117,7 +141,7 @@ export default {
       .big {
         font-size: 22px;
         font-weight: 600;
-        background: #0a6fdbd5;
+        background: #0a6fdb;
         display: flex;
         cursor: default;
         justify-content: space-around;
@@ -126,7 +150,7 @@ export default {
           color: white;
         }
         &:hover {
-          background: #0a6fdbd5;
+          background: #0a6fdb;
         }
       }
     }

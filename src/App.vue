@@ -9,6 +9,7 @@
       </router-view>
   <router-view v-if="!$route?.meta.keepAlive" :key="$route.path"></router-view>
   <Footer></Footer>
+  <a-back-top />
 </template>
 
 <script >
@@ -16,9 +17,10 @@ import { RouterLink, RouterView } from 'vue-router'
 import NavButton from './components/NavButton.vue';
 import Nav from './components/Nav.vue';
 import Footer from './components/Footer.vue';
+import { BackTop } from 'ant-design-vue';
 export default {
   name: 'app',
-  components: { NavButton, Nav, Footer },
+  components: { NavButton, Nav, Footer, ABackTop:BackTop },
   mounted() {
     console.log(this.$route.path);
  }
@@ -28,9 +30,6 @@ export default {
 
 <style lang="scss" scoped>
 
-.animate__animated.animate__fadeInLeft {
-  --animate-duration: .9s;
-}
 .body {
   padding:  16px 10vw;
   position: relative;

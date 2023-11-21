@@ -24,7 +24,7 @@ export function tranformRoute(routes) {
             id,
             path: parentId === 0 ? `/${naviUrl}` : naviUrl,
             name: naviName,
-            component:  children && children.length > 0 ? modules[`../views/Content.vue`]  :modules[`../views/${typeToComponent[naviType]}.vue`],
+            component: children && children.length > 0 ? modules[`../views/Content.vue`] :modules[`../views/${typeToComponent[naviType]}.vue`],
             children: children && children.length > 0 ? tranformRoute(children) : [],
             meta: {
                 title: naviName,
@@ -32,6 +32,15 @@ export function tranformRoute(routes) {
                 id,
             },
             redirect: parentId === 0 ? `/${naviUrl}/${tranformRoute(children)[0].path}` : ''
+        }
+        //新闻页面单独添加新闻详情页
+        if(naviType === 2) {
+            console.log('add detail')
+            newRoute['children'].push({
+                path: ':id',
+                name: `${naviName}详情`,   //约定的路由命名
+                component: modules[`../views/Newsdetail.vue`]
+            })
         }
         console.log(newRoute);
         return newRoute;
@@ -78,7 +87,6 @@ export function transformRoutesToNav(routes,extraRoute) {
       if(item.children && item.children.length > 0) {
         nav.children = transformRoutesToNav(item.children);
       }
-      
       return nav;
   }) 
   //添加默认nav

@@ -15,12 +15,13 @@ export default defineConfig({
       },
     }
   },
+  base: '/',
   plugins: [
     vue(),
     createSvgIconsPlugin({
       iconDirs: [resolve(process.cwd(),'src/assets/icons')],
       symbolId: "icon-[name]"
-    })
+    }),
   ],
   resolve: {
     alias: {

@@ -1,6 +1,6 @@
 <template>
     <div class="newsDetail">
-        {{ console.log($route)
+        {{ console.debug($route)
          }}
          <div class="title">{{ newsDetail?.newsTitle }}</div>
          <div class="time">发布时间: {{ newsDetail?.newsTime }}</div>
@@ -35,10 +35,8 @@ export default {
 <style lang="scss" scoped>
   .newsDetail {
     margin: 0 auto;
-    margin-top: 70px;
     width: 100%;
     padding: 8px;
-    max-width: 1280px;
     .title {
       font-size: 32px;
       font-weight: 600;
