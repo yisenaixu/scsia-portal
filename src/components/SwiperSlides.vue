@@ -54,12 +54,12 @@ export default {
 </script>
 <style lang="scss" scoped>
 .my-swiper { 
-   height: 700px;
+   height: 70vh;
   .swiper {
     width: 100%;
     height: 100%;
     :deep(.slick-slide > div) {
-      height: 700px;
+      height: 70vh;
       overflow: hidden;
     }
   }

@@ -125,4 +125,12 @@ import SvgIcon from './SvgIcon.vue';
         }
       }
     }
+    @media (max-width: 1440px) {
+  .nav-button {
+    font-size: 16px;
+    .extar-buttons-item {
+      font-size: 16px;
+    }
+  }
+}
 </style>

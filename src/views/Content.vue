@@ -5,18 +5,20 @@
       </div>
     <div class="container">
       <div class="navs">
-        <div class="nav big">
-          <router-link :to="nav.path">{{ nav.meta.title }}</router-link>
+        <router-link :to="nav.path">
+         <div class="nav big">
+          {{ nav.meta.title }}
           <svg-icon symbolId="icon-arrow-down" className="svgIcon"></svg-icon>
-        </div>
-        <div :class="{nav:true,active:$route.meta.title === item.meta.title}" v-for="item in nav.children" :key="item">
-          <router-link :to="`${nav.path}/${item.path}`">{{
-            item.meta.title
-          }}</router-link>
+         </div>
+        </router-link>
+        <router-link :to="`${nav.path}/${item.path}`"  v-for="item in nav.children" :key="item">
+         <div :class="{nav:true,active:$route.meta.title === item.meta.title}">
+           {{ item.meta.title}}
            <div class="icon">
              <svg-icon symbolId="icon-arrow-left" className="svgIcon" color="black" ></svg-icon>
            </div>
-        </div>
+         </div>
+        </router-link>
       </div>
       <div class="info">
         <div class="crumb-nav">
@@ -73,9 +75,6 @@ export default {
     left: 0;
     position: absolute;
     z-index: 0;
-    img {
-      width: 100%;
-    }
   }
   .container {
     display: flex;
@@ -105,9 +104,6 @@ export default {
           }
           }
         }
-    }
-    .nav-big {
-      font-size: 36px;
     }
     .navs {
         width: 15%;
@@ -143,12 +139,10 @@ export default {
         font-weight: 600;
         background: #0a6fdb;
         display: flex;
-        cursor: default;
+        cursor: pointer;
         justify-content: space-around;
         align-items: center;
-        a {
-          color: white;
-        }
+        color: white;
         &:hover {
           background: #0a6fdb;
         }
