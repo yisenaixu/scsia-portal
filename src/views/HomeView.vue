@@ -16,7 +16,7 @@
           <div v-for="item in news" :key="item" class="item"
           @click="
           () => {
-            $router.push({ name: 'newsDetail', params: { id: item.id } })
+            $router.push({ name: '行业资讯详情', params: { id: item.id } })
             }"
             >
             <div class="time">
@@ -43,13 +43,13 @@
           <div class="ser-con-item button">软件企业评估</div>
           <div class="ser-con-item button">软件产品评估</div>
           <div class="ser-con-item">
-            <Block :news="sub_New[0]" ></Block>
+            <Block :news="sub_New[0]" type="活动通知" ></Block>
           </div>
           <div class="ser-con-item">
-            <Block :news="sub_New[1]"></Block>
+            <Block :news="sub_New[1]" type="活动报道"></Block>
           </div>
           <div class="ser-con-item">
-            <Block :news="sub_New[2]"></Block>
+            <Block :news="sub_New[2]" type="公示公告"></Block>
           </div>
         </div>
       </div>

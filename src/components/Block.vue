@@ -13,7 +13,7 @@
                 <div v-for="it in news?.news" :key="it" class="list-item"
                 @click="
                     () => {
-                          $router.push({ name: 'newsDetail', params: { id: it.id } })
+                          $router.push({ name: `${type}详情`, params: { id: it.id } })
                           }">
                   {{ it.title }}
                 </div>
@@ -23,7 +23,7 @@
 <script>
 export default {
     name: 'block',
-    props: ['news'],
+    props: ['news','type'],
 }
 </script>
 <style lang="scss" scoped>

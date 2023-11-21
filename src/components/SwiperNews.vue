@@ -25,7 +25,7 @@
         <div class="swiper-news" 
              v-for="item in news" 
              :key="item"
-             @click="$router.push({ name: 'newsDetail', params: { id: item.id } })">
+             @click="$router.push({ name: '行业资讯详情', params: { id: item.id } })">
             <img v-if="item?.detail?.newsPic" :src="item?.detail?.newsPic" alt="" />
             <img v-if="!item?.detail?.newsPic" src="@/assets/test.jpg" alt="" />
             <div v-if="showBottom" class="container">
