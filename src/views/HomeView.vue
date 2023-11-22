@@ -92,19 +92,13 @@
               ></svg-icon>
             </div>
           </template>
-          <div class="imgs" v-for="src in news" :key="src">
+          <div class="imgs" v-for="link in homeData.links" :key="link">
             <div class="container">
-              <div class="img">
-                <img src="@/assets/test.jpg" alt="" />
-              </div>
-              <div class="img">
-                <img src="@/assets/test.jpg" alt="" />
-              </div>
-              <div class="img">
-                <img src="@/assets/test.jpg" alt="" />
-              </div>
-              <div class="img">
-                <img src="@/assets/test.jpg" alt="" />
+              <div class="img" v-for="item in link" :key="item.id">
+                <a :href="item.url">
+                  <img :src="item.src" alt="" />
+                  <div class="name">{{ item.name }}</div>
+                </a>
               </div>
             </div>
           </div>
@@ -119,7 +113,6 @@ import Block from "../components/Block.vue";
 import SwiperNews from "../components/SwiperNews.vue";
 import SwiperSlides from "../components/SwiperSlides.vue";
 import SvgIcon from "../components/SvgIcon.vue";
-import { getSlides } from '../api/router';
 import { mapActions, mapState } from 'vuex';
 export default {
   components: { SwiperNews, Block, ACarousel: Carousel,SvgIcon, SwiperSlides },
@@ -128,7 +121,7 @@ export default {
     ...mapState(['homeData','homeNaviIds'])
   },
   methods: {
-    ...mapActions(['fetchSubNews','fetchMainNews','fetchSlides'])
+    ...mapActions(['fetchSubNews','fetchMainNews','fetchSlides','fetchLinks'])
   },
   mounted() {
     console.log(this.$route);
@@ -137,6 +130,7 @@ export default {
     this.fetchSlides();
     this.fetchMainNews();
     this.fetchSubNews();
+    this.fetchLinks();
     this.main_url = this.$router.getRoutes().find(item => item.meta.id === this.homeNaviIds[0]).path
   },
   data() {
@@ -309,13 +303,23 @@ export default {
       margin-top: 48px;
       .imgs {
         .container {
-          display: flex;
-          justify-content: space-around;
+          display: grid;
+          gap: 24px;
+          grid-template-columns: repeat(4, 1fr);
+          padding: 0 40px;
           .img {
-            width: 20%;
+            width: 100%;
             img {
               width: 100%;
-              height: 100%;
+              height: 80%;
+              object-fit: contain;
+            }
+            .name {
+              text-align: center;
+              margin-top: 8px;
+              font-size: 14px;
+              font-weight: 600;
+              color: black;
             }
           }
         }

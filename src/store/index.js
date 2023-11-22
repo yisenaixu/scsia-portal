@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-import { getNews, getSlides } from "../api/router"
+import { getLinks, getNews, getSlides, } from "../api/router"
 import { transformRoutesToNav } from "../utils/router";
 import { getYMD } from "../utils/home";
 const store = createStore({
@@ -69,7 +69,29 @@ const store = createStore({
           })
           commit('updateHome',{key: `slides`, value: slides})
       })
-    }
+    },
+        /**
+     * @description 获取主页友情链接
+     */
+        fetchLinks({ state, commit }) {
+          getLinks()
+            .then(res => {
+              let links = []
+              let result = res.rows
+                .map( item => {
+                   return {
+                    url: item.linkUrl,
+                    src: item.linkPic,
+                    name: item.linkName,
+                    id: item.id
+                  }
+                 })
+              for(let i = 0 ; i < result.length; i+=4) {
+                 links.push(result.slice(i,i+4));
+              }
+              commit('updateHome',{key: `links`, value: links})
+          })
+        }
   }
 })
 
