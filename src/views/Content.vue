@@ -28,7 +28,8 @@
             >
             &nbsp;
           <div class="crumb-nav-item"  v-for="(item, index) in this.$route.matched" :key="item" v-show="index!==0">
-            <router-link :to="item.name" :class="{active: index === this.$route.matched.length-1}">{{ item.name }}</router-link>
+            <router-link v-if="!item.path.includes(':')" :to="item.path" :class="{active: index === this.$route.matched.length-1}">{{ item.name }}</router-link>
+            <span v-else :class="{active: index === this.$route.matched.length-1}">详情</span>
             <span v-show="index !== this.$route.matched.length-1">
               &nbsp;
               >

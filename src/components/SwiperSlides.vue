@@ -24,8 +24,8 @@
         </template>
         <div class="swiper-news" v-for="item in slides" :key="item">
             <a :href='item?.url'>
-              <img v-if="item?.src" :src="item?.src" alt="" />
-              <img v-if="!item?.src" src="@/assets/test.jpg" alt="" />
+              <img v-if="item?.src" :src="item?.src" alt="" loading="lazy"/>
+              <img v-if="!item?.src" src="@/assets/test.jpg" alt="" loading="lazy"/>
             </a>
         </div>
       </a-carousel>
