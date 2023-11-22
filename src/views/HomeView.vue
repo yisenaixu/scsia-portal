@@ -1,19 +1,19 @@
 <template>
   <div class="home">
-    <swiper-slides :slides="slide" :arrows="true" :dots="true" :showBottom="false"></swiper-slides>
+    <swiper-slides :slides="homeData.slides" :arrows="true" :dots="true" :showBottom="false"></swiper-slides>
     <div class="body">
       <div class="news">
         <div class="swiper">
           <swiper-news
           :showBottom="true"
-          :news="news"
+          :news="homeData.mainNews"
           :arrows="false"
           :dots="true"
           class="normal"
           ></swiper-news>
         </div>
         <div class="news-list">
-          <div v-for="item in news" :key="item" class="item"
+          <div v-for="item in homeData.mainNews" :key="item" class="item"
           @click="
           () => {
             $router.push({ name: '行业资讯详情', params: { id: item.id } })
@@ -43,13 +43,13 @@
           <div class="ser-con-item button">软件企业评估</div>
           <div class="ser-con-item button">软件产品评估</div>
           <div class="ser-con-item">
-            <Block :news="sub_New[0]" type="活动通知" ></Block>
+            <Block :news="homeData.subNews_1" type="活动通知" ></Block>
           </div>
           <div class="ser-con-item">
-            <Block :news="sub_New[1]" type="活动报道"></Block>
+            <Block :news="homeData.subNews_2" type="活动报道"></Block>
           </div>
           <div class="ser-con-item">
-            <Block :news="sub_New[2]" type="公示公告"></Block>
+            <Block :news="homeData.subNews_3" type="公示公告"></Block>
           </div>
         </div>
       </div>
@@ -119,46 +119,29 @@ import Block from "../components/Block.vue";
 import SwiperNews from "../components/SwiperNews.vue";
 import SwiperSlides from "../components/SwiperSlides.vue";
 import SvgIcon from "../components/SvgIcon.vue";
-import { fetchMainNewsList, fetchSubNewsList, homeNaviIds } from "../utils/home";
 import { getSlides } from '../api/router';
+import { mapActions, mapState } from 'vuex';
 export default {
   components: { SwiperNews, Block, ACarousel: Carousel,SvgIcon, SwiperSlides },
   name: "home",
-  async mounted() {
+  computed: {
+    ...mapState(['homeData','homeNaviIds'])
+  },
+  methods: {
+    ...mapActions(['fetchSubNews','fetchMainNews','fetchSlides'])
+  },
+  mounted() {
     console.log(this.$route);
     console.log(this.$router);
-    // fetchMainNewsList().then(res => this.news = res);
-    console.debug(this.sub_New.length);
-    getSlides().then(res => {
-      console.debug(res);
-      this.slide = res.rows.map( item => {
-        return {
-          url: item.slidUrl,
-          src: item.slidPic,
-          id: item.id
-        }
-      })
-    })
-    if(this.sub_New.length === 0) {
-    this.news = await fetchMainNewsList();
-    Promise.all([fetchSubNewsList(homeNaviIds['sub_1']),
-                                       fetchSubNewsList(homeNaviIds['sub_2']),
-                                       fetchSubNewsList(homeNaviIds['sub_3'])]).then(
-                                         res => {
-                                          console.debug(res);
-                                          this.sub_New = res;
-                                         }
-                                       );
-    }
-    console.debug(this.sub_New)
-    this.main_url = this.$router.getRoutes().find(item => item.meta.id === homeNaviIds['main']).path;
-    console.debug(this.main_url);
+    
+    this.fetchSlides();
+    this.fetchMainNews();
+    this.fetchSubNews();
+    this.main_url = this.$router.getRoutes().find(item => item.meta.id === this.homeNaviIds[0]).path
   },
   data() {
     return {
-      slides: [],
       news: [{}, {}, {}, {}, {},],
-      sub_New: [],
       main_url: '',
       isMoreHover: false,
     };

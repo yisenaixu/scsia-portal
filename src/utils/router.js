@@ -20,18 +20,22 @@ export function tranformRoute(routes) {
         console.log(item);
         const {id, naviName, naviUrl, naviType, parentId, children} = item;
         console.log(typeToComponent[naviType]);
+        let transChildren = [];
+        if(children && children.length > 0) {
+            transChildren = tranformRoute(children)
+        }
         let newRoute = {
             id,
             path: parentId === 0 ? `/${naviUrl}` : naviUrl,
             name: naviName,
             component: children && children.length > 0 ? modules[`../views/Content.vue`] :modules[`../views/${typeToComponent[naviType]}.vue`],
-            children: children && children.length > 0 ? tranformRoute(children) : [],
+            children: transChildren,
             meta: {
                 title: naviName,
                 parentId,
                 id,
             },
-            redirect: parentId === 0 ? `/${naviUrl}/${tranformRoute(children)[0].path}` : ''
+            redirect: parentId === 0 ? `/${naviUrl}/${transChildren[0].path}` : ''
         }
         //新闻页面单独添加新闻详情页
         if(naviType === 2) {
@@ -41,6 +45,7 @@ export function tranformRoute(routes) {
                 name: `${naviName}详情`,   //约定的路由命名
                 component: modules[`../views/Newsdetail.vue`]
             })
+            store.commit('setHomeNaviIds',id)
         }
         console.log(newRoute);
         return newRoute;
