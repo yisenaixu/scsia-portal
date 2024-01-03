@@ -11,7 +11,11 @@ export default defineConfig({
       '/portal': {
         target : 'http://120.76.192.186:8080/',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/protal/,'protal')
+      },
+      '/dev-api/profile':{
+        target : 'http://120.76.192.186:8080/',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/dev-api/,'')
       },
     }
   },

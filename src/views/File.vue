@@ -9,7 +9,7 @@
           <div class="list-item" v-for="file in files" :key="file">
             <div class="name">{{file?.fileTitle}}</div>
             <div class="link">
-              <a href="">
+              <a :href="`/dev-api${file.fileUrl}`" download >
                 点击下载
               </a>
             </div>
@@ -38,7 +38,6 @@ import { Pagination } from "ant-design-vue";
     mounted() {
       getFiles(this.$route.meta.id).then(res => {
         this.files = res.rows;
-        this.$refs.a.download = baseURL + this.files[0]?.fileUrl
       })
     },
     data() {
@@ -47,6 +46,11 @@ import { Pagination } from "ant-design-vue";
         current: 1,
         pageSize: 10,
         total: 1,
+      }
+    },
+    computed: {
+      baseURL(){
+        return baseURL
       }
     }
   }

@@ -1,10 +1,8 @@
 <template>
-    <div class="newsDetail">
-        {{ console.debug($route)
-         }}
+    <div class="newsDetail" v-if="isLoad">
          <div class="title">{{ newsDetail?.newsTitle }}</div>
-         <div class="time">发布时间: {{ newsDetail?.newsTime }}</div>
-         <div v-html="htmlRegex"></div>
+         <div class="time"> 发布时间:{{ newsDetail?.newsTime?.split(' ')[0] }}</div>
+         <div v-html="htmlRegex" class="html"></div>
     </div>
 </template>
 <script>
@@ -14,6 +12,7 @@ export default {
     name: 'newsDetail',
     data() {
       return {
+        isLoad: false,
         newsDetail: ''
       }
     },
@@ -28,6 +27,7 @@ export default {
         getSingleNews(this.$route.params.id).then(res => {
          console.log(res);
          this.newsDetail = res.data
+         this.isLoad = true
       })
     },
 }
@@ -46,7 +46,12 @@ export default {
       font-size: 14px;
       font-weight: 200;
       text-align: center;
-      margin-top: 16px;
+      margin: 16px 0;
+    }
+    .html {
+      :deep(p) {
+        text-indent: 2em;
+      }
     }
   }
 </style>

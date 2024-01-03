@@ -16,7 +16,7 @@ export function tranformRoute(routes) {
     }
     const modules = import.meta.glob('../views/*.vue');    
 
-    let newRoutes = routes.map(item => {
+    let newRoutes = routes.filter(item => item.naviIsOut !== 1).map(item => {
         console.log(item);
         const {id, naviName, naviUrl, naviType, parentId, children} = item;
         console.log(typeToComponent[naviType]);
@@ -24,6 +24,7 @@ export function tranformRoute(routes) {
         if(children && children.length > 0) {
             transChildren = tranformRoute(children)
         }
+
         let newRoute = {
             id,
             path: parentId === 0 ? `/${naviUrl}` : naviUrl,
@@ -55,6 +56,30 @@ export function tranformRoute(routes) {
 }
 
 /**
+ * @description 转化路由为导航组件属性
+ * @param {*} routes 
+ * @returns 
+ */
+export function transformRoutesToNav(routes,extraRoute) {
+    let navs = [];
+    navs = routes?.filter(item => item.naviIsShow !== 0).map(item => {
+        let nav = {title: item?.naviName,
+                   url: item.parentId === 0 ? `/${item.naviUrl}` : item.naviUrl,
+                   type: item.naviIsOut === 1 ? 'out' : 'in' 
+                  };
+        if(item.children && item.children.length > 0) {
+          nav.children = transformRoutesToNav(item.children);
+        }
+        return nav;
+    }) 
+    //添加默认nav
+    if(extraRoute)
+      navs.unshift(extraRoute);
+    console.debug("navs",navs);
+    return navs;
+  }
+
+/**
  * @description 获得动态路由
  * @returns 
  */
@@ -62,41 +87,26 @@ export async function getRoutes() {
     let res = await getRouters()
     console.log(res);
     let routerMap = tranformRoute(res.data);
+    let navMap = transformRoutesToNav(res.data,{title:'首页',url:'/'});
     console.log(routerMap);
     console.debug('routermap',routerMap);
     console.debug(router.options.routes);
     console.log(router.getRoutes());
-    return routerMap;
+    return {routerMap,
+        navMap
+    };
+
 }
 
 export function setRoutes(routes) {
-    for(let i of routes) {
-        console.log('1',i);
+    const {routerMap,navMap} = routes;
+    for(let i of routerMap) {
         router.addRoute(i);
         router.options.routes.push(i);
+        console.debug(router.options.routes,'11');
       }
-      store.commit('update',routes);
+      console.debug(routerMap,navMap)
+      store.commit('update',navMap);
 }
 
 
-/**
- * @description 转化路由参数为nav组件需要使用属性
- * @param {*} routes 
- * @returns 
- */
-export function transformRoutesToNav(routes,extraRoute) {
-  let navs = [];
-  navs = routes?.map(item => {
-      let nav = {title: item?.meta?.title,
-                 url: item?.path};
-      if(item.children && item.children.length > 0) {
-        nav.children = transformRoutesToNav(item.children);
-      }
-      return nav;
-  }) 
-  //添加默认nav
-  if(extraRoute)
-    navs.unshift(extraRoute);
-  console.debug("navs",navs);
-  return navs;
-}

@@ -13,7 +13,8 @@
           v-show="isHover" 
           v-for="u in urls" 
           :key="u.title">
-            <router-link :to="`${routeUrl}/${u.url}`" :key="u.title" >
+            <a v-if="u.type === 'out'" :href="u.url" target="_blank" >{{ u.title }}</a> 
+            <router-link v-if="u.type === 'in'" :to="`${routeUrl}/${u.url}`">
               {{ u.title }}
            </router-link>
           </div>
@@ -25,7 +26,6 @@
          :to="routeUrl">
          {{ routeName }}
         </router-link>
-        <!-- <svg-icon symbolId="icon-heart" className="svgIcon"></svg-icon> -->
        </div>
     </div>
 </template>

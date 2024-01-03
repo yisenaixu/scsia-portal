@@ -3,20 +3,21 @@
     <div class="container">
       <div class="list"  v-show="!showDetail">
         <div
-          v-for="item in list"
+          v-for="item in newsList"
           :key="item"
           class="list-item"
           @click="
             () => {
               console.log(1);
-              $router.push({ name: `${$route.name}详情`,params: {id:item.id}});
+              $router.push({ name: `${$route.name}详情`,params: {id:item.id},query: {key: $route.query.key}});
               console.debug('2222')
             }
           "
         >
           <div class="title">
             <img src="@/assets/icon-arrowsBlueRight.png" alt="" />
-              {{ item.newsTitle }}
+              <div v-html="item.newsTitle"></div>
+              <button class="top" v-if="item.newsIsTop">置顶</button>
           </div>
           <div class="time">{{ formatTime(item.newsTime) }}</div>
         </div>
@@ -38,6 +39,7 @@
 <script>
 import { getNews } from "../api/router";
 import { Pagination } from "ant-design-vue";
+import { mapState } from 'vuex';
 export default {
   name: "News",
   components: { APagination: Pagination },
@@ -46,10 +48,15 @@ export default {
       current: 1,
       pageSize: 10,
       total: "",
+      isSearch: false,
       list: [],
     };
   },
   computed: {
+    ...mapState(['searchList']),
+    newsList() {
+      return this.isSearch ?  this.searchList : this.list 
+    },
     showDetail() {
       return this.$route.params.id ? true : false
     },
@@ -81,11 +88,16 @@ export default {
   },
   mounted() {
     console.debug(this.$route.meta.id);
-    getNews(this.$route.meta.id).then((res) => {
-      console.debug(res.rows);
-      this.list = res.rows;
-      this.total = res.total;
-    });
+    if(!this.$route.meta.id) {
+      this.isSearch = true
+      console.debug(this.searchList)
+    } else {
+      getNews(this.$route.meta.id).then((res) => {
+        console.debug(res.rows)
+        this.list = res.rows
+        this.total = res.total;
+      });
+    }
   },
 };
 </script>
@@ -112,6 +124,9 @@ export default {
         &:hover {
             color: #0a6fdb
           }
+          &:last-child {
+          border: none;
+        }
         .title {
           overflow: hidden;
           text-overflow: ellipsis;
@@ -124,6 +139,14 @@ export default {
           img {
             margin-right: 4px;
           }
+          .top {
+          font-size: 10px;
+          border: 1px solid red;
+          color: red;
+          background: white;
+          padding: 2px 1px;
+          margin-left: 4px;
+        }
         }
         .time {
           flex: 1;

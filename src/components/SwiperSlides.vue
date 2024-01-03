@@ -26,6 +26,11 @@
             <a :href='item?.url'>
               <img v-if="item?.src" :src="item?.src" alt="" loading="lazy"/>
               <img v-if="!item?.src" src="@/assets/test.jpg" alt="" loading="lazy"/>
+              <div class="container">
+              <div class="swiper-news-item">
+                {{ item?.title }}
+              </div>
+            </div>
             </a>
         </div>
       </a-carousel>
@@ -75,11 +80,13 @@ export default {
     object-fit: cover;
   }
   .container {
-    width: 100%;
-    height: 50px;
+    width: 40%;
+    height: 30px;
     background: rgba($color: #000000, $alpha: 0.5);
     position: absolute;
-    bottom: 0;
+    bottom: 35px;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     align-items: center;
     .swiper-news-item {

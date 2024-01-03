@@ -6,8 +6,10 @@
         <keep-alive>
           <component :is="Component" />
         </keep-alive>
-      </router-view>
-  <router-view v-if="!$route?.meta.keepAlive" :key="$route.path"></router-view>
+  </router-view>
+<div v-if="!$route?.meta.keepAlive" class="body">
+  <router-view ></router-view>
+</div>
   <Footer></Footer>
   <a-back-top />
 </template>
@@ -31,14 +33,13 @@ export default {
 <style lang="scss" scoped>
 
 .body {
-  padding:  16px 10vw;
+  padding: 0 10vw;
   position: relative;
-  min-height:  calc(100vh - 85px);
-  box-sizing: border-box;
+  min-height:  calc(100vh - 64px);
+  // box-sizing: border-box;
+  margin-top: 64px;
   display: flex;
-  align-items: center;
-  justify-content: space-around;
-  background: #000
+  justify-content: center;
 }
 nav {
   display: flex;

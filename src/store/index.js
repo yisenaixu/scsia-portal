@@ -5,20 +5,17 @@ import { getYMD } from "../utils/home";
 const store = createStore({
    state: { 
     news_count: 5,
-    routes: [],
+    navs: [],
     homeNaviIds: [],   //0: main 1-3: sub
-    homeData: {}
-  },
-  getters: {
-    navs(state) {
-        return transformRoutesToNav(state.routes,{title:'首页',url:'/'});
-    }
+    homeData: {},
+    searchResult: [], // 整体搜索结果
+    searchList: JSON.parse(localStorage.getItem('list')),  //传给单栏目新闻的搜索结果
   },
   mutations: {
     update(state,payload) {
-        state.routes = payload
+        state.navs = payload
         console.debug('payload',payload);
-        sessionStorage.setItem('routes',JSON.stringify(state.routes))
+        sessionStorage.setItem('navs',JSON.stringify(state.navs))
     },
     updateHome(state, { key, value }) {
       state.homeData[key] = value;
@@ -26,6 +23,15 @@ const store = createStore({
     setHomeNaviIds(state, payload) {
       console.debug('sett')
       state.homeNaviIds.push(payload)
+    },
+    setSearchResult(state, payload) {
+      console.log('更新搜索结果')
+      state.searchResult = payload
+    },
+    setSearchList(state, payload) {
+      console.log('更新搜索列表')
+      state.searchList = payload
+      localStorage.setItem('list',JSON.stringify(payload))
     }
   },
   actions: {
@@ -35,7 +41,7 @@ const store = createStore({
     fetchMainNews({ state, commit }) {
       getNews(state.homeNaviIds[0],state.news_count)
         .then(res => { 
-          let newsList = res.rows.map(item => ({id:item.id, title:item.newsTitle, time:getYMD(item.newsTime), detail:item,}))
+          let newsList = res.rows.map(item => ({id:item.id, title:item.newsTitle, time:getYMD(item.newsTime), detail:item,isTop:item.newsIsTop}))
           commit('updateHome',{key: 'mainNews', value: newsList})
         });  
     },
@@ -48,7 +54,7 @@ const store = createStore({
           getNews(state.homeNaviIds[i],state.news_count)
             .then(res => {
               let title = res.rows[0]?.naviName;
-              let newsList = res.rows.map(item => ({id:item.id, title:item.newsTitle, detail:item}))
+              let newsList = res.rows.map(item => ({id:item.id, title:item.newsTitle, detail:item,isTop:item.newsIsTop}))
               commit('updateHome',{key: `subNews_${i}`, value: {title,news: newsList}})
             })
         }
@@ -64,6 +70,7 @@ const store = createStore({
             return {
               url: item.slidUrl,
               src: item.slidPic,
+              title: item.slidTitle,
               id: item.id
             }
           })

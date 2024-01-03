@@ -21,10 +21,16 @@
          :urls="nav?.children" ></nav-button>
       </div>
       <div class="nav-right">
-        <div class="nav-search">
+        <div class="nav-search" :class="{active:inputFocus}">
            <svg-icon symbolId="icon-search" className="svgIcon" color="black"></svg-icon>
            <div class="search"> 
-            <input type="text">
+            <input 
+              v-model="value" 
+              type="text" 
+              @keyup.enter="() => handleSearch()"
+              @blur="inputFocus = false"
+              @focus="inputFocus = true" 
+              >
            </div>
         </div>
         <div class="login-button">
@@ -43,7 +49,8 @@
 <script>
 import SvgIcon from "./SvgIcon.vue";
 import NavButton from "./NavButton.vue";
-import { mapGetters } from "vuex";
+import { mapMutations, mapState } from "vuex";
+import { search } from "../api/router";
 export default {
   components: { NavButton, SvgIcon},
   name: "Nav",
@@ -53,26 +60,34 @@ export default {
   },
   data() {
     return {
+      value: '',
       isShow: false,
+      inputFocus: false,
       show: '',
-      urls: [
-        { name: "活动通知", path: "/notic" },
-        { name: "活动报告", path: "/report" },
-        { name: "公示公告", path: "/public" },
-        { name: "行业资讯", path: "/news" },
-      ],
-      urls_1: [{ name: "联系我们", path: "/connect" }],
     };
   },
   computed: {
-    ...mapGetters(['navs']),
+    ...mapState(['navs']),
     maxNavChildrenHeight() {
       return this.navs.reduce((max,cur) => {
         const length = cur?.children?.length ?? 0;
         return length > max ? length : max;
       },0)
     }
-  }
+  },
+  methods: {
+    ...mapMutations(['setSearchResult','setSearchList']),
+    handleSearch() {
+      console.log(this.value);
+      if(this.value) {
+        search(this.value).then((res) => {
+         this.setSearchResult(res.data)  
+         this.setSearchList([])
+         this.$router.push({path: `/search/${res.data[0]?.naviName}`,query:{key:this.value}})
+       });
+      }
+    }
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -150,6 +165,12 @@ export default {
              }
          }
       } 
+    }
+    .active {
+      background: rgba(189, 207, 255, 0.55);
+      .svgIcon {
+        color:  #007aff !important;
+      }
     }
       justify-content: right;
     }

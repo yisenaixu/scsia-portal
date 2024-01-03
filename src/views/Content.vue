@@ -38,7 +38,7 @@
           </div>
           <!-- <router-link class="active" :to="$route.path"> {{ $route.name }} </router-link> -->
          </div>
-        <router-view></router-view>
+        <router-view :key="$route.path"></router-view>
       </div>
     </div>
   </div>
@@ -70,18 +70,23 @@ export default {
 .content {
   width: 100%;
   max-width: 1200px;
-  margin: 50px auto;
+  // margin: 50px auto;
   overflow: hidden;
   .ba-img {
     left: 0;
+    width: 100%;
     position: absolute;
     z-index: 0;
+    img {
+      width:100%;
+      height: 160px;
+    }
   }
   .container {
     display: flex;
     justify-content: space-around;
     // align-items: center;
-    margin-top: 170px;
+    margin-top: 130px;
     .info {
         margin-top: 30px;
         width: 80%;

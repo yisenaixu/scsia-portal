@@ -88,3 +88,14 @@ export function getLinks() {
     method: 'get'
   })
 }
+
+/**
+ * @description 通过新闻标题搜索新闻
+ * @param {number} keyword
+ */
+export function search(keywords) {
+  return request({
+    url: `/portal/news/search?keywords=${keywords}`,
+    method: 'get'
+  })
+}
