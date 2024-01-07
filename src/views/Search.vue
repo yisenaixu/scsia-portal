@@ -4,12 +4,13 @@
         <img src="@/assets/banner.png" alt="">
       </div>
     <div class="container">
-      <div class="navs">
-         <div class="nav big">
-            全局搜索
-          <svg-icon symbolId="icon-arrow-down" className="svgIcon"></svg-icon>
-         </div>
-        <div class="nav search-nav">
+      <LeftSider 
+        title="全局搜索" 
+        :to="$route.path" 
+        :links="links"
+        :handleClick="handleClick"
+      >
+      <div class="nav search-nav">
              当前搜索
              <div class="nav-search" :class="{active:inputFocus}">
               <svg-icon symbolId="icon-search" className="svgIcon" color="black"></svg-icon>
@@ -24,15 +25,7 @@
              </div>
             </div>
         </div>
-        <router-link :to="`/search/${nav}?key=${$route.query.key}`"  @click="() => handleClick(nav)" v-for="nav in navs" :key="nav">
-         <div :class="{nav:true,active:decodeURIComponent($route.path).includes(nav) }">
-           {{ nav }}
-           <div class="icon">
-             <svg-icon symbolId="icon-arrow-left" className="svgIcon" color="black" ></svg-icon>
-           </div>
-         </div>
-        </router-link>
-      </div>
+      </LeftSider>
       <div class="info">
         <div class="crumb-nav">
           <router-link class="crumb-nav-home" to="/">
@@ -57,9 +50,10 @@
 import { mapMutations, mapState } from 'vuex';
 import { search } from "../api/router";
 import SvgIcon from "../components/SvgIcon.vue";
+import LeftSider from '../components/LeftSider.vue';
 export default {
   name: "search",
-  components: {SvgIcon},
+  components: {SvgIcon, LeftSider},
   mounted() {
     search(this.$route.query.key).then((res) => {
       console.log(res);
@@ -74,7 +68,7 @@ export default {
       isShow: false,
       inputFocus: false,
       hasResult: true,
-      value: this.$route.query.key
+      value: this.$route.query.key,
     };
   },
   computed: {
@@ -96,16 +90,24 @@ export default {
     },
     active() {
       return this.$route.path.includes(nav)
+    },
+    links() {
+      return this.navs.map(item => {
+        return {
+          title: item,
+          to: `/search/${item}?key=${this.$route.query.key}`
+        }
+      })
     }
   },
   methods: {
     ...mapMutations(['setSearchList','setSearchResult']),
     handleSearch() {
-      console.log(this.value);
       if(this.value) {
         search(this.value).then((res) => {
          this.setSearchResult(res.data)  
          this.setSearchList([])
+         this.setSearchList(this.classLists[this.$route.params.path])
          this.$router.push({path: `/search/${res.data[0]?.naviName}`,query:{key:this.value}})
        });
       }
@@ -138,9 +140,13 @@ export default {
         console.log(res);
         this.hasResult = res.data.length > 0;
         this.highLight(res.data);
+        this.setSearchList([])
         this.setSearchList(this.classLists[this.$route.params.path])
       });
     },
+    "$route.params.path"(val) {
+      this.setSearchList(this.classLists[this.$route.params.path])
+    }
   },
 };
 </script>
@@ -202,10 +208,6 @@ export default {
           }
         }
     }
-    .navs {
-        width: 15%;
-        background: #f2f2f2;
-        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
       .nav {
         cursor: pointer;
         padding: 16px 16px;
@@ -282,5 +284,4 @@ export default {
       }
     }
   }
-}
 </style>

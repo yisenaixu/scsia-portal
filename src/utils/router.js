@@ -17,9 +17,7 @@ export function tranformRoute(routes) {
     const modules = import.meta.glob('../views/*.vue');    
 
     let newRoutes = routes.filter(item => item.naviIsOut !== 1).map(item => {
-        console.log(item);
         const {id, naviName, naviUrl, naviType, parentId, children} = item;
-        console.log(typeToComponent[naviType]);
         let transChildren = [];
         if(children && children.length > 0) {
             transChildren = tranformRoute(children)
@@ -46,9 +44,8 @@ export function tranformRoute(routes) {
                 name: `${naviName}详情`,   //约定的路由命名
                 component: modules[`../views/Newsdetail.vue`]
             })
-            store.commit('setHomeNaviIds',id)
+            store.commit('setHomeNaviIds',{id: id,title: naviName})
         }
-        console.log(newRoute);
         return newRoute;
     })
 
@@ -75,7 +72,6 @@ export function transformRoutesToNav(routes,extraRoute) {
     //添加默认nav
     if(extraRoute)
       navs.unshift(extraRoute);
-    console.debug("navs",navs);
     return navs;
   }
 
@@ -85,14 +81,10 @@ export function transformRoutesToNav(routes,extraRoute) {
  */
 export async function getRoutes() {
     let res = await getRouters()
-    console.log(res);
     let routerMap = tranformRoute(res.data);
     let navMap = transformRoutesToNav(res.data,{title:'首页',url:'/'});
-    console.log(routerMap);
-    console.debug('routermap',routerMap);
-    console.debug(router.options.routes);
-    console.log(router.getRoutes());
-    return {routerMap,
+    return {
+        routerMap,
         navMap
     };
 

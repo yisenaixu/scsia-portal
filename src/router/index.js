@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import Home from '../views/Home.vue'
 import Search from '../views/Search.vue'
 import { getRoutes, setRoutes } from '../utils/router'
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView,
+    component: Home,
     meta: {
      title: '首页',
      keepAlive: true,

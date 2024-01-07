@@ -1,6 +1,6 @@
 <template>
   <header>
-      <Nav></Nav>
+    <Nav></Nav>
   </header>
   <router-view v-if="$route.meta.keepAlive" v-slot="{ Component } " :key="$route.path"> 
         <keep-alive>
@@ -23,9 +23,6 @@ import { BackTop } from 'ant-design-vue';
 export default {
   name: 'app',
   components: { NavButton, Nav, Footer, ABackTop:BackTop },
-  mounted() {
-    console.log(this.$route.path);
- }
 }
 </script>
 

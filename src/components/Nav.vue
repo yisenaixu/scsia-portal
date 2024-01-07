@@ -82,7 +82,6 @@ export default {
       if(this.value) {
         search(this.value).then((res) => {
          this.setSearchResult(res.data)  
-         this.setSearchList([])
          this.$router.push({path: `/search/${res.data[0]?.naviName}`,query:{key:this.value}})
        });
       }

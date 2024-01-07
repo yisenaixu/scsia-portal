@@ -4,22 +4,11 @@
         <img src="@/assets/banner.png" alt="">
       </div>
     <div class="container">
-      <div class="navs">
-        <router-link :to="nav.path">
-         <div class="nav big">
-          {{ nav.meta.title }}
-          <svg-icon symbolId="icon-arrow-down" className="svgIcon"></svg-icon>
-         </div>
-        </router-link>
-        <router-link :to="`${nav.path}/${item.path}`"  v-for="item in nav.children" :key="item">
-         <div :class="{nav:true,active:$route.meta.title === item.meta.title}">
-           {{ item.meta.title}}
-           <div class="icon">
-             <svg-icon symbolId="icon-arrow-left" className="svgIcon" color="black" ></svg-icon>
-           </div>
-         </div>
-        </router-link>
-      </div>
+      <LeftSider 
+        :title="nav.meta.title" 
+        :to="nav.path" 
+        :links="links"
+      />
       <div class="info">
         <div class="crumb-nav">
           <router-link class="crumb-nav-home" to="/">
@@ -36,7 +25,6 @@
               &nbsp;
             </span>
           </div>
-          <!-- <router-link class="active" :to="$route.path"> {{ $route.name }} </router-link> -->
          </div>
         <router-view :key="$route.path"></router-view>
       </div>
@@ -45,8 +33,9 @@
 </template>
 <script>
 import SvgIcon from '../components/SvgIcon.vue';
+import LeftSider from '../components/LeftSider.vue';
 export default {
-  components: { SvgIcon },
+  components: { SvgIcon, LeftSider },
   name: "Content",
   data() {
     return {
@@ -63,6 +52,14 @@ export default {
     nav() {
       return this.routes.find((item) => item.id === this.parentId);
     },
+    links() {
+      return this.nav.children.map(item => {
+        return {
+          title: item.meta.title,
+          to: `${this.nav.path}/${item.path}`
+        }
+      })
+    }
   },
 };
 </script>
@@ -113,6 +110,7 @@ export default {
     }
     .navs {
         width: 15%;
+        min-width: 180px;
         background: #f2f2f2;
         box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
       .nav {

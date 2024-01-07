@@ -1,28 +1,35 @@
 import { createStore } from "vuex";
 import { getLinks, getNews, getSlides, } from "../api/router"
-import { transformRoutesToNav } from "../utils/router";
 import { getYMD } from "../utils/home";
 const store = createStore({
    state: { 
     news_count: 5,
+    //顶部导航
     navs: [],
-    homeNaviIds: [],   //0: main 1-3: sub
-    homeData: {},
-    searchResult: [], // 整体搜索结果
-    searchList: JSON.parse(localStorage.getItem('list')),  //传给单栏目新闻的搜索结果
+    //主页展示新闻栏目和id
+    homeNewsNavis: [],  
+    // 主页新闻数据
+    homeData: {
+      mainNews:[],
+      subNews_1: [],
+      subNews_2: [],
+      subNews_3: [],
+    },
+    // 整体搜索结果
+    searchResult: [],
+    //传给单栏目新闻的搜索结果
+    searchList: JSON.parse(localStorage.getItem('list')), 
   },
   mutations: {
     update(state,payload) {
         state.navs = payload
-        console.debug('payload',payload);
         sessionStorage.setItem('navs',JSON.stringify(state.navs))
     },
     updateHome(state, { key, value }) {
       state.homeData[key] = value;
     },
     setHomeNaviIds(state, payload) {
-      console.debug('sett')
-      state.homeNaviIds.push(payload)
+      state.homeNewsNavis.push(payload)
     },
     setSearchResult(state, payload) {
       console.log('更新搜索结果')
@@ -39,23 +46,24 @@ const store = createStore({
      * @description 获取主页主题新闻 
      */
     fetchMainNews({ state, commit }) {
-      getNews(state.homeNaviIds[0],state.news_count)
+      if(state.homeNewsNavis.length > 0) {
+        getNews(state.homeNewsNavis[0]?.id,state.news_count)
         .then(res => { 
           let newsList = res.rows.map(item => ({id:item.id, title:item.newsTitle, time:getYMD(item.newsTime), detail:item,isTop:item.newsIsTop}))
-          commit('updateHome',{key: 'mainNews', value: newsList})
+          commit('updateHome',{key: 'mainNews',title: state.homeNewsNavis[0].title,value: newsList})
         });  
+      }
     },
     /**
      * @description 获取主页次要新闻
      */
     fetchSubNews({ state, commit }){
-      for(let i=0; i< state.homeNaviIds.length; i++) {
+      for(let i=0; i< state.homeNewsNavis.length; i++) {
         if(i !== 0 ) {
-          getNews(state.homeNaviIds[i],state.news_count)
+          getNews(state.homeNewsNavis[i].id,state.news_count)
             .then(res => {
-              let title = res.rows[0]?.naviName;
-              let newsList = res.rows.map(item => ({id:item.id, title:item.newsTitle, detail:item,isTop:item.newsIsTop}))
-              commit('updateHome',{key: `subNews_${i}`, value: {title,news: newsList}})
+              let newsList = res.rows.map(item => ({id:item.id, title:item.newsTitle ,isTop:item.newsIsTop, picUrl: item.newsPic}))
+              commit('updateHome',{key: `subNews_${i}`, title: state.homeNewsNavis[i].title,value: newsList })
             })
         }
       }

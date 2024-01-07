@@ -35,7 +35,6 @@ export default {
 
 <style lang="scss" scoped>
 
-@media (min-width: 1024px) {
   .about {
     color: #000;
     margin-top: 24px;
@@ -50,5 +49,4 @@ export default {
       }
     }
   }
-}
 </style>

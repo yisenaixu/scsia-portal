@@ -2,27 +2,27 @@
   <div class="block">
     <div class="title-box">
       <div class="title">
-        {{ news?.title }}
+        {{ title }}
       </div>
       <div class="line"></div>
     </div>
     <div class="img"
     @click="
           () => {
-            $router.push({ name: `${type}详情`, params: { id: news?.news[0].id } });
+            $router.push({ name: `${title}详情`, params: { id: news[0]?.id } });
           }
         "
     >
-      <img :src="news?.news[0].detail.newsPic" alt="" />
+      <img :src="news[0]?.picUrl" alt="" />
     </div>
     <div class="list">
       <div
-        v-for="it in news?.news"
+        v-for="it in news"
         :key="it"
         class="list-item"
         @click="
           () => {
-            $router.push({ name: `${type}详情`, params: { id: it.id } });
+            $router.push({ name: `${title}详情`, params: { id: it.id } });
           }
         "
       >
@@ -35,7 +35,7 @@
 <script>
 export default {
   name: "block",
-  props: ["news", "type"],
+  props: ["news", "title"],
 };
 </script>
 <style lang="scss" scoped>

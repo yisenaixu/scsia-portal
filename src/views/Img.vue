@@ -11,7 +11,6 @@
               </div>
           </a-image-preview-group>
          </div>
-         {{ console.log(img) }}
         <div class="title">{{ img.title }}</div>
       </div>
     </div>
