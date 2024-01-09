@@ -3,7 +3,7 @@
     <Swipers 
           :showBottom="true"
             :items="slides"
-            :arrows="false"
+            :arrows="true"
             :dots="true"
             position="top"
             height="70vh"
@@ -306,7 +306,7 @@ export default {
     width: 100%;
     padding: 24px;
     margin-top: 48px;
-    background-image: url("@/assets/introduce-bg.png");
+    background-image: url("@/assets/img/introduce-bg.png");
     display: flex;
     justify-content: space-around;
     align-items: center;

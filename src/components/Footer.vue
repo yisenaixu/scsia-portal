@@ -3,7 +3,7 @@
       <div class="container">
         <div class="footer-top">
             <div class="img">
-              <img src="@/assets/logo.png" alt="">
+              <img src="@/assets/img/logo.png" alt="">
             </div>
         </div>
         <div class="footer-bottom">

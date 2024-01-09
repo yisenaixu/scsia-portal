@@ -28,7 +28,7 @@
             <a :href="item?.href">
               <div class="content" :style="{width,height}">
                 <img v-show="item.picUrl" :src="item.picUrl" alt="" loading="lazy"/>
-                <img v-show="!item.picUrl" src="@/assets/test.jpg" alt="" loading="lazy"/>
+                <img v-show="!item.picUrl" src="@/assets/img/test.jpg" alt="" loading="lazy"/>
                 <div v-if="showBottom" class="container" :class="position">
                   <div class="title">
                     {{ item.title }}

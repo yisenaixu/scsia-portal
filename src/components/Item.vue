@@ -1,6 +1,6 @@
 <template>
    <div class="title">
-     <img src="@/assets/icon-arrowsBlueRight.png" alt="" />
+     <img src="@/assets/img/icon-arrowsBlueRight.png" alt="" />
      <div v-html="item.newsTitle"></div>
      <button class="top" v-if="item.newsIsTop">置顶</button>
    </div>

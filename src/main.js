@@ -1,5 +1,5 @@
-import './assets/main.css'
-import './assets/default.css'
+import './assets/css/main.css'
+import './assets/css/default.css'
 import 'animate.css'
 import 'ant-design-vue/dist/reset.css';
 import { createApp } from 'vue'

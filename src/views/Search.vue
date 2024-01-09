@@ -1,7 +1,7 @@
 <template>
   <div class="search">
     <div class="ba-img">
-        <img src="@/assets/banner.png" alt="">
+        <img src="@/assets/img/banner.png" alt="">
       </div>
     <div class="container">
       <LeftSider 
