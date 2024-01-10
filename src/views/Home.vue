@@ -1,17 +1,17 @@
 <template>
   <div class="home">
-    <Swipers 
-          :showBottom="true"
-            :items="slides"
-            :arrows="true"
-            :dots="true"
-            position="top"
-            height="70vh"
+    <Swipers
+      :showBottom="true"
+      :items="slides"
+      :arrows="true"
+      :dots="true"
+      position="top"
+      height="70vh"
     />
     <div class="body">
       <div class="news">
         <div class="swiper">
-          <Swipers 
+          <Swipers
             :showBottom="true"
             :items="news"
             :arrows="false"
@@ -27,7 +27,10 @@
             class="item"
             @click="
               () => {
-                $router.push({ name: `${homeNewsNavis[0].title}详情`, params: { id: item.id } });
+                $router.push({
+                  name: `${homeNewsNavis[0].title}详情`,
+                  params: { id: item.id },
+                })
               }
             "
           >
@@ -67,13 +70,22 @@
           <div class="ser-con-item button">软件企业评估</div>
           <div class="ser-con-item button">软件产品评估</div>
           <div class="ser-con-item">
-            <Block :news="homeData.subNews_1" :title="homeNewsNavis[1].title"></Block>
+            <Block
+              :news="homeData.subNews_1"
+              :title="homeNewsNavis[1].title"
+            ></Block>
           </div>
           <div class="ser-con-item">
-            <Block :news="homeData.subNews_2" :title="homeNewsNavis[2].title"></Block>
+            <Block
+              :news="homeData.subNews_2"
+              :title="homeNewsNavis[2].title"
+            ></Block>
           </div>
           <div class="ser-con-item">
-            <Block :news="homeData.subNews_3" :title="homeNewsNavis[3].title"></Block>
+            <Block
+              :news="homeData.subNews_3"
+              :title="homeNewsNavis[3].title"
+            ></Block>
           </div>
         </div>
       </div>
@@ -131,21 +143,21 @@
     </div>
   </div>
 </template>
-<script >
-import { Carousel } from "ant-design-vue";
-import Block from "../components/Block.vue";
-import SvgIcon from "../components/SvgIcon.vue";
-import { mapActions, mapState } from "vuex";
-import Swipers from '../components/Swipers.vue';
+<script>
+import { Carousel } from 'ant-design-vue'
+import Block from '../components/Block.vue'
+import SvgIcon from '../components/SvgIcon.vue'
+import { mapActions, mapState } from 'vuex'
+import Swipers from '../components/Swipers.vue'
 export default {
   components: { Block, ACarousel: Carousel, SvgIcon, Swipers },
-  name: "home",
+  name: 'home',
   computed: {
-    ...mapState(["homeData", "homeNewsNavis"]),
+    ...mapState(['homeData', 'homeNewsNavis']),
     slides() {
-      return this.homeData.slides?.map( slide => {
+      return this.homeData.slides?.map(slide => {
         return {
-          id:slide.id,
+          id: slide.id,
           picUrl: slide.src,
           title: slide.title,
           href: slide.url,
@@ -153,41 +165,41 @@ export default {
       })
     },
     news() {
-      return this.homeData.mainNews?.map( news => {
+      return this.homeData.mainNews?.map(news => {
         return {
           id: news.id,
           picUrl: news.detail.newsPic,
           title: news.title,
         }
       })
-    }
+    },
   },
   methods: {
     ...mapActions([
-      "fetchSubNews",
-      "fetchMainNews",
-      "fetchSlides",
-      "fetchLinks",
+      'fetchSubNews',
+      'fetchMainNews',
+      'fetchSlides',
+      'fetchLinks',
     ]),
   },
   created() {
-    console.log(this.$route);
-    console.log(this.$router);
-    this.fetchSlides();
-    this.fetchMainNews();
-    this.fetchSubNews();
-    this.fetchLinks();
+    console.log(this.$route)
+    console.log(this.$router)
+    this.fetchSlides()
+    this.fetchMainNews()
+    this.fetchSubNews()
+    this.fetchLinks()
     this.main_url = this.$router
       .getRoutes()
-      .find((item) => item.meta.id === this.homeNewsNavis[0].id).path;
+      .find(item => item.meta.id === this.homeNewsNavis[0].id).path
   },
   data() {
     return {
-      main_url: "",
+      main_url: '',
       isMoreHover: false,
-    };
+    }
   },
-};
+}
 </script>
 <style lang="scss" scoped>
 .home {
@@ -240,7 +252,7 @@ export default {
         margin-bottom: 24px;
         width: 100%;
         // border-bottom: 1px solid rgba($color: #000000, $alpha: 0.1);
-        &:hover .title-box  {
+        &:hover .title-box {
           color: #72beff;
         }
         .title-box {
@@ -306,7 +318,7 @@ export default {
     width: 100%;
     padding: 24px;
     margin-top: 48px;
-    background-image: url("@/assets/img/introduce-bg.png");
+    background-image: url('@/assets/img/introduce-bg.png');
     display: flex;
     justify-content: space-around;
     align-items: center;

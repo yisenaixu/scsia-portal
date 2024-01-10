@@ -6,12 +6,13 @@
       </div>
       <div class="line"></div>
     </div>
-    <div class="img"
-    @click="
-          () => {
-            $router.push({ name: `${title}详情`, params: { id: news[0]?.id } });
-          }
-        "
+    <div
+      class="img"
+      @click="
+        () => {
+          $router.push({ name: `${title}详情`, params: { id: news[0]?.id } })
+        }
+      "
     >
       <img :src="news[0]?.picUrl" alt="" />
     </div>
@@ -22,7 +23,7 @@
         class="list-item"
         @click="
           () => {
-            $router.push({ name: `${title}详情`, params: { id: it.id } });
+            $router.push({ name: `${title}详情`, params: { id: it.id } })
           }
         "
       >
@@ -34,9 +35,9 @@
 </template>
 <script>
 export default {
-  name: "block",
-  props: ["news", "title"],
-};
+  name: 'block',
+  props: ['news', 'title'],
+}
 </script>
 <style lang="scss" scoped>
 .block {

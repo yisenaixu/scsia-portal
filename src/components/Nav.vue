@@ -8,30 +8,34 @@
       </div>
       <div
         class="nav-middle"
-        @mouseenter="$refs.bg.style.height = `${maxNavChildrenHeight*45}px` "
+        @mouseenter="$refs.bg.style.height = `${maxNavChildrenHeight * 45}px`"
         @mouseleave="$refs.bg.style.height = 0"
       >
-        {{ console.log(navs)
-         }}
-         <nav-button 
-         v-for="nav in navs" 
-         :key="nav" 
-         :routeName="nav.title" 
-         :routeUrl="nav.url" 
-         :urls="nav?.children" ></nav-button>
+        {{ console.log(navs) }}
+        <nav-button
+          v-for="nav in navs"
+          :key="nav"
+          :routeName="nav.title"
+          :routeUrl="nav.url"
+          :urls="nav?.children"
+        ></nav-button>
       </div>
       <div class="nav-right">
-        <div class="nav-search" :class="{active:inputFocus}">
-           <svg-icon symbolId="icon-search" className="svgIcon" color="black"></svg-icon>
-           <div class="search"> 
-            <input 
-              v-model="value" 
-              type="text" 
+        <div class="nav-search" :class="{ active: inputFocus }">
+          <svg-icon
+            symbolId="icon-search"
+            className="svgIcon"
+            color="black"
+          ></svg-icon>
+          <div class="search">
+            <input
+              v-model="value"
+              type="text"
               @keyup.enter="() => handleSearch()"
               @blur="inputFocus = false"
-              @focus="inputFocus = true" 
-              >
-           </div>
+              @focus="inputFocus = true"
+            />
+          </div>
         </div>
         <div class="login-button">
           <button>
@@ -43,20 +47,20 @@
         </div>
       </div>
     </nav>
-    <div ref="bg" :class="{bg: true, bgHover:isShow}"></div>
+    <div ref="bg" :class="{ bg: true, bgHover: isShow }"></div>
   </div>
 </template>
 <script>
-import SvgIcon from "./SvgIcon.vue";
-import NavButton from "./NavButton.vue";
-import { mapMutations, mapState } from "vuex";
-import { search } from "../api/router";
+import SvgIcon from './SvgIcon.vue'
+import NavButton from './NavButton.vue'
+import { mapMutations, mapState } from 'vuex'
+import { search } from '../api/router'
 export default {
-  components: { NavButton, SvgIcon},
-  name: "Nav",
+  components: { NavButton, SvgIcon },
+  name: 'Nav',
   mounted() {
-    console.log(this.$route);
-    console.debug(this.navs);
+    console.log(this.$route)
+    console.debug(this.navs)
   },
   data() {
     return {
@@ -64,30 +68,33 @@ export default {
       isShow: false,
       inputFocus: false,
       show: '',
-    };
+    }
   },
   computed: {
     ...mapState(['navs']),
     maxNavChildrenHeight() {
-      return this.navs.reduce((max,cur) => {
-        const length = cur?.children?.length ?? 0;
-        return length > max ? length : max;
-      },0)
-    }
+      return this.navs.reduce((max, cur) => {
+        const length = cur?.children?.length ?? 0
+        return length > max ? length : max
+      }, 0)
+    },
   },
   methods: {
-    ...mapMutations(['setSearchResult','setSearchList']),
+    ...mapMutations(['setSearchResult', 'setSearchList']),
     handleSearch() {
-      console.log(this.value);
-      if(this.value) {
-        search(this.value).then((res) => {
-         this.setSearchResult(res.data)  
-         this.$router.push({path: `/search/${res.data[0]?.naviName}`,query:{key:this.value}})
-       });
+      console.log(this.value)
+      if (this.value) {
+        search(this.value).then(res => {
+          this.setSearchResult(res.data)
+          this.$router.push({
+            path: `/search/${res.data[0]?.naviName}`,
+            query: { key: this.value },
+          })
+        })
       }
-    }
+    },
   },
-};
+}
 </script>
 <style lang="scss" scoped>
 .nav {
@@ -97,7 +104,7 @@ export default {
   right: 0;
   z-index: 9999;
   height: auto;
-  background: rgba(255, 255, 255, .75);
+  background: rgba(255, 255, 255, 0.75);
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.11);
   transition: height 2.1s;
   nav {
@@ -119,10 +126,10 @@ export default {
         height: 64px;
         width: 117px;
         img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
       }
     }
     .nav-middle {
@@ -133,7 +140,7 @@ export default {
     .nav-right {
       .login-button {
         margin-right: 16px;
-         button {
+        button {
           margin-right: 4px;
           background: rgba(189, 207, 255, 0.28);
           padding: 4px 8px;
@@ -141,7 +148,7 @@ export default {
           font-weight: 600;
           border: none;
           border-radius: 8px;
-         }
+        }
       }
       .nav-search {
         display: flex;
@@ -151,26 +158,26 @@ export default {
         margin-right: 20px;
         background: rgba(189, 207, 255, 0.28);
         border-radius: 8px;
-        .search{
+        .search {
           margin-left: 8px;
           input {
-             width: 80px;
-             font-size: 16px;
-             font-weight: 500;
-             border: none;
-             background: transparent;
-             &:focus-visible {
+            width: 80px;
+            font-size: 16px;
+            font-weight: 500;
+            border: none;
+            background: transparent;
+            &:focus-visible {
               outline: none;
-             }
-         }
-      } 
-    }
-    .active {
-      background: rgba(189, 207, 255, 0.55);
-      .svgIcon {
-        color:  #007aff !important;
+            }
+          }
+        }
       }
-    }
+      .active {
+        background: rgba(189, 207, 255, 0.55);
+        .svgIcon {
+          color: #007aff !important;
+        }
+      }
       justify-content: right;
     }
   }

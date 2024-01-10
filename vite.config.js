@@ -6,27 +6,27 @@ import vue from '@vitejs/plugin-vue'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import { createHtmlPlugin } from 'vite-plugin-html'
 // https://vitejs.dev/config/
-export default defineConfig(({command, mode}) => {
+export default defineConfig(({ mode }) => {
   return {
     server: {
       proxy: {
         '/portal': {
-          target : 'http://120.76.192.186:8080/',
+          target: 'http://120.76.192.186:8080/',
           changeOrigin: true,
         },
-        '/dev-api/profile':{
-          target : 'http://120.76.192.186:8080/',
+        '/dev-api/profile': {
+          target: 'http://120.76.192.186:8080/',
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/dev-api/,'')
+          rewrite: path => path.replace(/^\/dev-api/, ''),
         },
-      }
+      },
     },
     base: '/',
     plugins: [
       vue(),
       createSvgIconsPlugin({
-        iconDirs: [resolve(process.cwd(),'src/assets/icons')],
-        symbolId: "icon-[name]"
+        iconDirs: [resolve(process.cwd(), 'src/assets/icons')],
+        symbolId: 'icon-[name]',
       }),
       createHtmlPlugin({
         minify: true,
@@ -34,15 +34,15 @@ export default defineConfig(({command, mode}) => {
         template: '/index.html',
         inject: {
           data: {
-            title: loadEnv(mode,process.cwd())['VITE_APP_TITLE']
-          }
-        }
-      })
+            title: loadEnv(mode, process.cwd())['VITE_APP_TITLE'],
+          },
+        },
+      }),
     ],
     resolve: {
       alias: {
-        '@': fileURLToPath(new URL('./src', import.meta.url))
-      }
-    }
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+      },
+    },
   }
 })

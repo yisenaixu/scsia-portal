@@ -1,12 +1,12 @@
-import request from "../utils/request"
+import request from '../utils/request'
 /**
  * @description 动态获得路由表
  */
 export function getRouters() {
-    return request({
-      url: '/portal/navi',
-      method: 'get',
-    });
+  return request({
+    url: '/portal/navi',
+    method: 'get',
+  })
 }
 /**
  * @description 根据信息栏目id获取信息栏目内容
@@ -31,14 +31,14 @@ export function getNews(id, pageSize, current) {
     method: 'get',
     params: {
       pageSize,
-      current
-    }
+      current,
+    },
   })
 }
 
 /**
  * @description 根据新闻id获取详情
- * @param {number} id 
+ * @param {number} id
  */
 export function getSingleNews(id) {
   return request({
@@ -49,24 +49,24 @@ export function getSingleNews(id) {
 
 /**
  * @description 根据文件栏目id获取文件栏目内容
- * @param {number} id 
+ * @param {number} id
  */
 export function getFiles(id) {
   return request({
-    url: `/portal/files`,
+    url: '/portal/files',
     method: 'get',
-    params: {id},
+    params: { id },
   })
 }
 /**
  * @description 根据图片栏目id获取图片栏目内容
- * @param {number} id 
+ * @param {number} id
  */
 export function getPictures(id) {
   return request({
-    url: `/portal/pictures`,
+    url: '/portal/pictures',
     method: 'get',
-    params: {id},
+    params: { id },
   })
 }
 
@@ -75,8 +75,8 @@ export function getPictures(id) {
  */
 export function getSlides() {
   return request({
-    url: `/portal/slides`,
-    method: 'get'
+    url: '/portal/slides',
+    method: 'get',
   })
 }
 /**
@@ -84,8 +84,8 @@ export function getSlides() {
  */
 export function getLinks() {
   return request({
-    url: `/portal/links`,
-    method: 'get'
+    url: '/portal/links',
+    method: 'get',
   })
 }
 
@@ -96,6 +96,6 @@ export function getLinks() {
 export function search(keywords) {
   return request({
     url: `/portal/news/search?keywords=${keywords}`,
-    method: 'get'
+    method: 'get',
   })
 }
