@@ -66,9 +66,21 @@
       </div>
       <div class="service">
         <div class="ser-container">
-          <div class="ser-con-item button">加入软协</div>
-          <div class="ser-con-item button">软件企业评估</div>
-          <div class="ser-con-item button">软件产品评估</div>
+          <a href="http://man.dkelab.cn/login">
+            <div class="ser-con-item button">加入软协</div>
+          </a>
+          <div
+            class="ser-con-item button"
+            @click="$router.push('/softwareService/evaluation_1')"
+          >
+            软件企业评估
+          </div>
+          <div
+            class="ser-con-item button"
+            @click="$router.push('/softwareService/evaluation_2')"
+          >
+            软件产品评估
+          </div>
           <div class="ser-con-item">
             <Block
               :news="homeData.subNews_1"
@@ -90,25 +102,13 @@
         </div>
       </div>
       <div class="introduce-bg">
-        <div class="item">
-          <div class="count">504</div>
-          <div class="title">普通会员</div>
-        </div>
-        <div class="line"></div>
-        <div class="item">
-          <div class="count">106</div>
-          <div class="title">理事单位</div>
-        </div>
-        <div class="line"></div>
-        <div class="item">
-          <div class="count">38</div>
-          <div class="title">常务理事单位</div>
-        </div>
-        <div class="line"></div>
-        <div class="item">
-          <div class="count">50</div>
-          <div class="title">副理事单位</div>
-        </div>
+        <template v-for="(vip, index) in vips" :key="index">
+          <div class="item">
+            <div class="count">{{ vip.count }}</div>
+            <div class="title">{{ vip.name }}</div>
+          </div>
+          <div class="line" v-if="index !== vips.length - 1"></div>
+        </template>
       </div>
       <div class="member">
         <a-carousel autoplay :dots="false" :arrows="true">
@@ -149,20 +149,23 @@ import Block from '../components/Block.vue'
 import SvgIcon from '../components/SvgIcon.vue'
 import { mapActions, mapState } from 'vuex'
 import Swipers from '../components/Swipers.vue'
+import { getVips } from '../api/router'
 export default {
   components: { Block, ACarousel: Carousel, SvgIcon, Swipers },
   name: 'home',
   computed: {
     ...mapState(['homeData', 'homeNewsNavis']),
     slides() {
-      return this.homeData.slides?.map(slide => {
-        return {
-          id: slide.id,
-          picUrl: slide.src,
-          title: slide.title,
-          href: slide.url,
-        }
-      })
+      return (
+        this.homeData.slides?.map(slide => {
+          return {
+            id: slide.id,
+            picUrl: slide.src,
+            title: slide.title,
+            href: slide.url,
+          }
+        }) ?? []
+      )
     },
     news() {
       return this.homeData.mainNews?.map(news => {
@@ -183,12 +186,20 @@ export default {
     ]),
   },
   created() {
-    console.log(this.$route)
-    console.log(this.$router)
     this.fetchSlides()
     this.fetchMainNews()
     this.fetchSubNews()
     this.fetchLinks()
+    getVips().then(res => {
+      this.vips = res.data
+        .sort((a, b) => {
+          return a.type - b.type
+        })
+        .map(i => ({
+          name: this.vipTypes[i.type],
+          count: i.count,
+        }))
+    })
     this.main_url = this.$router
       .getRoutes()
       .find(item => item.meta.id === this.homeNewsNavis[0].id).path
@@ -197,6 +208,13 @@ export default {
     return {
       main_url: '',
       isMoreHover: false,
+      vipTypes: {
+        1: '会员单位',
+        2: '理事会员',
+        3: '常务理事单位',
+        4: '副理事长单位',
+      },
+      vips: [],
     }
   },
 }
@@ -364,8 +382,6 @@ export default {
         &:hover {
           background: #389af0;
         }
-      }
-      .ser-con-item {
       }
     }
   }

@@ -16,7 +16,6 @@ const routes = [
 
     meta: {
       title: '首页',
-
       keepAlive: true,
     },
   },
@@ -72,33 +71,20 @@ const router = createRouter({
   routes,
 })
 
-router.beforeEach(async (to, from) => {
-  console.log('跳转路由中')
-
-  console.log(from, 'from')
-
-  console.log(to, 'to')
-
+router.beforeEach(async to => {
   // 未获取路由则请求动态路由
-
   if (router.options.routes.length === router.getRoutes().length - 2) {
     let routes = await getRoutes()
-
     setRoutes(routes)
-
-    console.log(333)
-
     return to.fullPath
   }
 
   // 路由不存在返回404页面
 
   if (!router.hasRoute(to.name)) {
-    console.log(to.name, '不存在')
-
     return { name: '404' }
   }
-
+  window.scrollTo(0, 0)
   return true
 })
 

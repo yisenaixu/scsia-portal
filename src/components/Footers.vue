@@ -20,7 +20,7 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
-  name: 'footer',
+  name: 'footers',
   computed: {
     ...mapGetters(['navs']),
   },

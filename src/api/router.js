@@ -99,3 +99,13 @@ export function search(keywords) {
     method: 'get',
   })
 }
+
+/**
+ * @description 获取会员统计数据
+ */
+export function getVips() {
+  return request({
+    url: '/portal/vip/stat',
+    method: 'get',
+  })
+}

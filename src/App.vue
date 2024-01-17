@@ -14,18 +14,18 @@
   <div v-if="!$route?.meta.keepAlive" class="body">
     <router-view></router-view>
   </div>
-  <Footer></Footer>
+  <Footers />
   <a-back-top />
 </template>
 
 <script>
 import NavButton from './components/NavButton.vue'
 import Nav from './components/Nav.vue'
-import Footer from './components/Footer.vue'
+import Footers from './components/Footers.vue'
 import { BackTop } from 'ant-design-vue'
 export default {
   name: 'app',
-  components: { NavButton, Nav, Footer, ABackTop: BackTop },
+  components: { NavButton, Nav, Footers, ABackTop: BackTop },
 }
 </script>
 

@@ -19,7 +19,7 @@
           v-model:page-size="pageSize"
           show-quick-jumper
           :total="total"
-          :show-total="total => `共有${total}篇内容`"
+          :show-total="total => `共有${total}条`"
           show-less-items
         />
       </div>
@@ -36,6 +36,7 @@ export default {
   mounted() {
     getFiles(this.$route.meta.id).then(res => {
       this.files = res.rows
+      this.total = res.total
     })
   },
   data() {
@@ -43,7 +44,7 @@ export default {
       files: '',
       current: 1,
       pageSize: 10,
-      total: 1,
+      total: 0,
     }
   },
   computed: {

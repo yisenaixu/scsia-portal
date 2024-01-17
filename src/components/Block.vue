@@ -14,7 +14,8 @@
         }
       "
     >
-      <img :src="news[0]?.picUrl" alt="" />
+      <img v-if="news[0]?.picUrl" :src="news[0]?.picUrl" alt="" />
+      <img v-if="!news[0]?.picUrl" src="@/assets/img/logo.png" alt="" />
     </div>
     <div class="list">
       <div

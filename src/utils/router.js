@@ -24,7 +24,6 @@ export function tranformRoute(routes) {
       if (children && children.length > 0) {
         transChildren = tranformRoute(children)
       }
-
       let newRoute = {
         id,
         path: parentId === 0 ? `/${naviUrl}` : naviUrl,
@@ -43,7 +42,6 @@ export function tranformRoute(routes) {
       }
       //新闻页面单独添加新闻详情页
       if (naviType === 2) {
-        console.log('add detail')
         newRoute['children'].push({
           path: ':id',
           name: `${naviName}详情`, //约定的路由命名
@@ -101,8 +99,6 @@ export function setRoutes(routes) {
   for (let i of routerMap) {
     router.addRoute(i)
     router.options.routes.push(i)
-    console.debug(router.options.routes, '11')
   }
-  console.debug(routerMap, navMap)
   store.commit('update', navMap)
 }

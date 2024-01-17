@@ -33,7 +33,7 @@
             />
             <img
               v-show="!item.picUrl"
-              src="@/assets/img/test.jpg"
+              src="@/assets/img/logo.png"
               alt=""
               loading="lazy"
             />

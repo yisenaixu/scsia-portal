@@ -7,7 +7,6 @@ const request = axios.create({
 
 request.interceptors.response.use(
   res => {
-    console.log(res)
     return res.data
   },
   err => {

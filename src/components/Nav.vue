@@ -11,7 +11,6 @@
         @mouseenter="$refs.bg.style.height = `${maxNavChildrenHeight * 45}px`"
         @mouseleave="$refs.bg.style.height = 0"
       >
-        {{ console.log(navs) }}
         <nav-button
           v-for="nav in navs"
           :key="nav"
@@ -58,10 +57,6 @@ import { search } from '../api/router'
 export default {
   components: { NavButton, SvgIcon },
   name: 'Nav',
-  mounted() {
-    console.log(this.$route)
-    console.debug(this.navs)
-  },
   data() {
     return {
       value: '',
