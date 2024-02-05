@@ -6,7 +6,7 @@
       :arrows="true"
       :dots="true"
       position="top"
-      height="70vh"
+      height="42vh"
     />
     <div class="body">
       <div class="news">
@@ -16,40 +16,55 @@
             :items="news"
             :arrows="false"
             :dots="true"
-            width="790px"
-            height="400px"
+            width="28em"
+            height="20em"
           />
         </div>
-        <div class="news-list">
-          <div
-            v-for="item in homeData.mainNews"
-            :key="item"
-            class="item"
-            @click="
-              () => {
-                $router.push({
-                  name: `${homeNewsNavis[0].title}详情`,
-                  params: { id: item.id },
-                })
-              }
-            "
-          >
-            <div class="time">
-              <div class="day">{{ item.time?.day }}</div>
-              <div class="ym">
-                <span>{{ item.time?.year }}</span
-                >-<span>{{ item.time?.month }}</span>
+        <div class="right">
+          <div class="news-tab" style="height: 50px">
+            <template v-for="(navi, index) in homeNewsNavis" :key="navi.title">
+              <div
+                class="tab"
+                v-if="index < 4"
+                :class="{ active: currentTab === navi.title }"
+                @click="currentTab = navi.title"
+              >
+                {{ navi.title }}
               </div>
-            </div>
-            <div class="title-box">
-              <div class="title">
-                <button class="top" v-if="item.isTop">置顶</button>
-                {{ item.title }}
-              </div>
-              <div class="description">{{ item.title }}</div>
-            </div>
+            </template>
           </div>
-          <div
+          <div class="news-list">
+            <div
+              v-for="item in homeData[currentTab]"
+              :key="item"
+              class="news-item-layout"
+              @click="
+                () => {
+                  $router.push({
+                    name: `${currentTab}详情`,
+                    params: { id: item.id },
+                  })
+                }
+              "
+            >
+              <div class="news-item-content">
+                <div class="time">
+                  <div class="day">{{ item.time?.day }}</div>
+                  <div class="ym">
+                    <span>{{ item.time?.year }}</span
+                    >-<span>{{ item.time?.month }}</span>
+                  </div>
+                </div>
+                <div class="tit">
+                  <div class="text">
+                    <button class="top" v-if="item.isTop">置顶</button>
+                    {{ item.title }}
+                  </div>
+                  <div class="button">查看</div>
+                </div>
+              </div>
+            </div>
+            <!-- <div
             class="more"
             @mouseenter="isMoreHover = true"
             @mouseleave="isMoreHover = false"
@@ -61,6 +76,7 @@
               className="svgIcon"
               color="black"
             ></svg-icon>
+          </div> -->
           </div>
         </div>
       </div>
@@ -81,7 +97,7 @@
           >
             软件产品评估
           </div>
-          <div class="ser-con-item">
+          <!-- <div class="ser-con-item">
             <Block
               :news="homeData.subNews_1"
               :title="homeNewsNavis[1].title"
@@ -98,7 +114,7 @@
               :news="homeData.subNews_3"
               :title="homeNewsNavis[3].title"
             ></Block>
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="introduce-bg">
@@ -145,13 +161,12 @@
 </template>
 <script>
 import { Carousel } from 'ant-design-vue'
-import Block from '../components/Block.vue'
 import SvgIcon from '../components/SvgIcon.vue'
 import { mapActions, mapState } from 'vuex'
 import Swipers from '../components/Swipers.vue'
 import { getVips } from '../api/router'
 export default {
-  components: { Block, ACarousel: Carousel, SvgIcon, Swipers },
+  components: { ACarousel: Carousel, SvgIcon, Swipers },
   name: 'home',
   computed: {
     ...mapState(['homeData', 'homeNewsNavis']),
@@ -168,27 +183,22 @@ export default {
       )
     },
     news() {
-      return this.homeData.mainNews?.map(news => {
+      return this.homeData[this.homeNewsNavis[0].title]?.map(news => {
         return {
           id: news.id,
-          picUrl: news.detail.newsPic,
+          picUrl: news.picUrl,
           title: news.title,
         }
       })
     },
   },
   methods: {
-    ...mapActions([
-      'fetchSubNews',
-      'fetchMainNews',
-      'fetchSlides',
-      'fetchLinks',
-    ]),
+    ...mapActions(['fetchNews', 'fetchSlides', 'fetchLinks']),
   },
   created() {
+    this.currentTab = this.homeNewsNavis[0].title
     this.fetchSlides()
-    this.fetchMainNews()
-    this.fetchSubNews()
+    this.fetchNews()
     this.fetchLinks()
     getVips().then(res => {
       this.vips = res.data
@@ -208,6 +218,7 @@ export default {
     return {
       main_url: '',
       isMoreHover: false,
+      currentTab: undefined,
       vipTypes: {
         1: '会员单位',
         2: '理事会员',
@@ -222,11 +233,20 @@ export default {
 <style lang="scss" scoped>
 .home {
   width: 100%;
-  margin-top: 50px;
+  font-size: 13px;
+  @media screen and (min-width: 1440px) {
+    font-size: 14px;
+  }
+  @media screen and (min-width: 1660px) {
+    font-size: 18px;
+  }
   .body {
-    margin: 36px auto;
+    margin: 48px auto;
+    padding: 0 17vw;
+    @media screen and (min-width: 1440px) {
+      padding: 0 15vw;
+    }
     width: 100%;
-    max-width: 1200px;
     display: flex;
     flex-direction: column;
     .news {
@@ -235,7 +255,7 @@ export default {
       user-select: none;
       flex-wrap: wrap;
       justify-content: center;
-      margin-bottom: 36px;
+      margin-bottom: 1.5em;
       .swiper {
         position: relative;
         :deep(.slick-dots) {
@@ -244,13 +264,42 @@ export default {
         }
       }
     }
-    .news-list {
+    .right {
       flex: 1;
-      width: 360px;
       margin-left: 24px;
-      position: relative;
-      padding: 20px 0;
-      .more {
+      .news-tab {
+        display: flex;
+        align-items: start;
+        .tab {
+          display: flex;
+          margin-right: 1em;
+          justify-content: start;
+          cursor: pointer;
+          align-items: center;
+          height: 32px;
+          border-radius: 32px;
+          padding: 2px 1.5em;
+          background: rgba(244, 244, 244, 0.8);
+          &:hover {
+            background: rgba(189, 207, 255, 0.28);
+          }
+        }
+        .active {
+          background: #007aff;
+          color: white;
+          &:hover {
+            background: #007aff;
+            color: white;
+          }
+        }
+      }
+      .news-list {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        gap: 1.5em 2em;
+        /* .more {
         display: flex;
         align-items: center;
         position: absolute;
@@ -262,71 +311,66 @@ export default {
         &:hover {
           color: #389af0;
         }
-      }
-      .item {
-        display: flex;
-        justify-content: space-around;
-        cursor: pointer;
-        margin-bottom: 24px;
-        width: 100%;
-        // border-bottom: 1px solid rgba($color: #000000, $alpha: 0.1);
-        &:hover .title-box {
-          color: #72beff;
-        }
-        .title-box {
-          width: 320px;
-          display: flex;
-          flex-direction: column;
+      } */
+        .news-item-layout {
           justify-content: space-around;
-          .title {
-            font-size: 20px;
-            font-weight: 600;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 1;
-            overflow: hidden;
-            &:hover {
-              color: #72beff;
+          padding: 1.1em;
+          width: 100%;
+          cursor: pointer;
+          background: rgba(244, 244, 244, 0.8);
+          &:hover {
+            background: rgba(189, 207, 255, 0.28);
+          }
+          .news-item-content {
+            display: flex;
+            .tit {
+              flex: 1;
+              margin-left: 12px;
+              height: 4em;
+              .text {
+                .top {
+                  height: 14px;
+                  line-height: 14px;
+                  font-size: 10px;
+                  border: 1px solid red;
+                  color: red;
+                  background: white;
+                  padding: 0 1px;
+                }
+                line-height: 1.4;
+                height: 3em;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+              }
+              .button {
+                text-align: right;
+                font-weight: 100;
+                opacity: 0.7;
+              }
             }
-            .top {
-              font-size: 10px;
-              border: 1px solid red;
-              color: red;
-              background: white;
-              padding: 2px 1px;
-              transform: translateY(-4px);
+            .time {
+              font-weight: 200;
+              margin-right: 8px;
+              box-sizing: border-box;
+              height: 4em;
+              width: 4em;
+              background: #389af0;
+              display: flex;
+              flex-direction: column;
+              justify-content: space-evenly;
+              align-items: center;
+              .day {
+                font-size: 1.5em;
+                font-weight: 400;
+                color: white;
+              }
+              .ym {
+                font-size: 0.8em;
+                color: white;
+              }
             }
-          }
-          .description {
-            font-size: 12px;
-            font-weight: 200;
-            text-indent: 10px;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 1;
-            overflow: hidden;
-          }
-        }
-        .time {
-          font-size: 14px;
-          font-weight: 200;
-          margin-right: 8px;
-          box-sizing: border-box;
-          height: 50px;
-          width: 50px;
-          background: #389af0;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-evenly;
-          align-items: center;
-          .day {
-            font-size: 20px;
-            font-weight: 600;
-            color: white;
-          }
-          .ym {
-            font-size: 12px;
-            color: white;
           }
         }
       }
@@ -335,7 +379,7 @@ export default {
   .introduce-bg {
     width: 100%;
     padding: 24px;
-    margin-top: 48px;
+    margin-top: 2em;
     background-image: url('@/assets/img/introduce-bg.png');
     display: flex;
     justify-content: space-around;
@@ -364,7 +408,7 @@ export default {
   }
   .service {
     width: 100%;
-    margin-top: 36px;
+    margin-top: 2em;
     .ser-container {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -386,7 +430,7 @@ export default {
     }
   }
   .member {
-    margin-top: 48px;
+    margin-top: 3em;
     .imgs {
       .container {
         display: grid;
@@ -403,9 +447,12 @@ export default {
           .name {
             text-align: center;
             margin-top: 8px;
-            font-size: 14px;
             font-weight: 600;
             color: black;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
           }
         }
       }

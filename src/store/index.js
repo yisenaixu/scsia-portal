@@ -3,17 +3,14 @@ import { getLinks, getNews, getSlides } from '../api/router'
 import { getYMD } from '../utils/home'
 const store = createStore({
   state: {
-    news_count: 5,
+    news_count: 4,
     //顶部导航
     navs: [],
     //主页展示新闻栏目和id
     homeNewsNavis: [],
     // 主页新闻数据
     homeData: {
-      mainNews: [],
-      subNews_1: [],
-      subNews_2: [],
-      subNews_3: [],
+      news: [],
     },
     // 整体搜索结果
     searchResult: [],
@@ -43,46 +40,23 @@ const store = createStore({
   },
   actions: {
     /**
-     * @description 获取主页主题新闻
+     * @description 获取主页新闻
      */
-    fetchMainNews({ state, commit }) {
-      if (state.homeNewsNavis.length > 0) {
-        getNews(state.homeNewsNavis[0]?.id, state.news_count).then(res => {
+    fetchNews({ state, commit }) {
+      for (let i = 0; i < 4; i++) {
+        getNews(state.homeNewsNavis[i].id, state.news_count).then(res => {
           let newsList = res.rows.map(item => ({
             id: item.id,
             title: item.newsTitle,
             time: getYMD(item.newsTime),
-            detail: item,
             isTop: item.newsIsTop,
+            picUrl: item.newsPic,
           }))
           commit('updateHome', {
-            key: 'mainNews',
-            title: state.homeNewsNavis[0].title,
+            key: state.homeNewsNavis[i].title,
             value: newsList,
           })
         })
-      }
-    },
-    /**
-     * @description 获取主页次要新闻
-     */
-    fetchSubNews({ state, commit }) {
-      for (let i = 0; i < state.homeNewsNavis.length; i++) {
-        if (i !== 0) {
-          getNews(state.homeNewsNavis[i].id, state.news_count).then(res => {
-            let newsList = res.rows.map(item => ({
-              id: item.id,
-              title: item.newsTitle,
-              isTop: item.newsIsTop,
-              picUrl: item.newsPic,
-            }))
-            commit('updateHome', {
-              key: `subNews_${i}`,
-              title: state.homeNewsNavis[i].title,
-              value: newsList,
-            })
-          })
-        }
       }
     },
     /**

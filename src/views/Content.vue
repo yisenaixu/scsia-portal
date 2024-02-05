@@ -14,22 +14,23 @@
           &nbsp; > &nbsp;
           <div
             class="crumb-nav-item"
-            v-for="(item, index) in this.$route.matched"
+            v-for="(item, index) in $route.matched"
             :key="item"
             v-show="index !== 0"
           >
+            {{ console.debug($route.matched) }}
             <router-link
               v-if="!item.path.includes(':')"
               :to="item.path"
-              :class="{ active: index === this.$route.matched.length - 1 }"
-              >{{ item.name }}</router-link
+              :class="{ active: index === $route.matched.length - 1 }"
+              >{{ item.meta.title }}</router-link
             >
             <span
               v-else
-              :class="{ active: index === this.$route.matched.length - 1 }"
+              :class="{ active: index === $route.matched.length - 1 }"
               >详情</span
             >
-            <span v-show="index !== this.$route.matched.length - 1">
+            <span v-show="index !== $route.matched.length - 1">
               &nbsp; > &nbsp;
             </span>
           </div>
@@ -63,7 +64,7 @@ export default {
     links() {
       return this.nav.children.map(item => {
         return {
-          title: item.meta.title,
+          title: item.meta?.title,
           to: `${this.nav.path}/${item.path}`,
         }
       })
@@ -73,9 +74,11 @@ export default {
 </script>
 <style lang="scss" scoped>
 .content {
+  padding: 0 17vw;
+  @media screen and (min-width: 1440px) {
+    padding: 0 15vw;
+  }
   width: 100%;
-  max-width: 1200px;
-  // margin: 50px auto;
   overflow: hidden;
   .ba-img {
     left: 0;
@@ -90,9 +93,9 @@ export default {
   .container {
     display: flex;
     justify-content: space-around;
-    // align-items: center;
-    margin-top: 130px;
+    margin-top: 135px;
     .info {
+      margin-left: 1em;
       margin-top: 30px;
       width: 80%;
       min-height: 600px;

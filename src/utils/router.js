@@ -19,6 +19,7 @@ export function tranformRoute(routes) {
   let newRoutes = routes
     .filter(item => item.naviIsOut !== 1)
     .map(item => {
+      console.debug(item)
       const { id, naviName, naviUrl, naviType, parentId, children } = item
       let transChildren = []
       if (children && children.length > 0) {
@@ -26,32 +27,42 @@ export function tranformRoute(routes) {
       }
       let newRoute = {
         id,
+        //路由path
         path: parentId === 0 ? `/${naviUrl}` : naviUrl,
-        name: naviName,
+        // 路由name
+        name: naviUrl,
         component:
           children && children.length > 0
             ? modules['../views/Content.vue']
             : modules[`../views/${typeToComponent[naviType]}.vue`],
         children: transChildren,
         meta: {
+          // 栏目名
           title: naviName,
           parentId,
           id,
         },
-        redirect: parentId === 0 ? `/${naviUrl}/${transChildren[0].path}` : '',
+        redirect: parentId === 0 ? `/${naviUrl}/${transChildren[0]?.path}` : '',
       }
       //新闻页面单独添加新闻详情页
       if (naviType === 2) {
         newRoute['children'].push({
           path: ':id',
-          name: `${naviName}详情`, //约定的路由命名
+          name: `${naviUrl}详情`, //约定的路由命名
           component: modules['../views/Newsdetail.vue'],
         })
         store.commit('setHomeNaviIds', { id: id, title: naviName })
       }
+      // 图片页面添加详情页
+      if (naviType === 4) {
+        newRoute['children'].push({
+          path: ':id',
+          name: `${naviUrl}详情`, //约定的路由命名
+          component: modules['../views/ImgDetail.vue'],
+        })
+      }
       return newRoute
     })
-
   return newRoutes
 }
 

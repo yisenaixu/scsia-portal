@@ -2,7 +2,7 @@
   <div class="about">
     <div class="container">
       <div class="title">{{ title }}</div>
-      <div v-html="htmlRegex"></div>
+      <div v-html="htmlRegex" class="html"></div>
     </div>
   </div>
 </template>
@@ -23,9 +23,7 @@ export default {
     },
   },
   mounted() {
-    console.debug(this.$route.meta.id)
     getAbout(this.$route.meta.id).then(res => {
-      console.debug(res.data)
       this.html = res.data?.abouContent
       this.title = res.data?.abouTitle
     })
@@ -45,6 +43,18 @@ export default {
       text-align: center;
       font-size: 24px;
       font-weight: 600;
+      margin-bottom: 12px;
+    }
+  }
+  .html {
+    :deep(p),
+    :deep(h1),
+    :deep(h2),
+    :deep(h3),
+    :deep(h4),
+    :deep(h5),
+    :deep(h6) {
+      text-indent: 2em;
     }
   }
 }

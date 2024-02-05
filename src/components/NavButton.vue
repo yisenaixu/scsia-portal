@@ -59,7 +59,7 @@ export default {
     position: relative;
     user-select: none;
     cursor: pointer;
-    min-width: 80px;
+    min-width: 90px;
     height: 40px;
     padding: 0 8px;
     display: flex;

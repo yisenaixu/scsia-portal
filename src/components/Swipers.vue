@@ -103,43 +103,59 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.swiper-container {
-  position: relative;
-  &:hover {
-    filter: brightness(1.05);
+.swiper {
+  font-size: 12px;
+  @media screen and (min-width: 1440px) {
+    font-size: 13px;
   }
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  @media screen and (min-width: 1660px) {
+    font-size: 15px;
   }
-  .container {
-    width: 100%;
-    height: 50px;
-    background: rgba($color: #000000, $alpha: 0.5);
-    position: absolute;
-    display: flex;
-    align-items: center;
-    .title {
-      height: 20px;
-      padding-left: 16px;
-      padding-right: 35%;
-      color: white;
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 1;
-      overflow: hidden;
+  .swiper-container {
+    font-size: 12px;
+    @media screen and (min-width: 1440px) {
+      font-size: 13px;
     }
-  }
-  .left {
-    bottom: 0;
-  }
-  .top {
-    width: 40%;
-    height: 30px;
-    bottom: 35px;
-    left: 50%;
-    transform: translateX(-50%);
+    @media screen and (min-width: 1660px) {
+      font-size: 15px;
+    }
+    position: relative;
+    &:hover {
+      filter: brightness(1.05);
+    }
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .container {
+      width: 100%;
+      height: 50px;
+      background: rgba($color: #000000, $alpha: 0.5);
+      position: absolute;
+      display: flex;
+      align-items: center;
+      .title {
+        height: 20px;
+        padding-left: 16px;
+        padding-right: 35%;
+        color: white;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        overflow: hidden;
+      }
+    }
+    .left {
+      bottom: 0;
+    }
+    .top {
+      width: 40%;
+      height: 30px;
+      bottom: 35px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
   }
 }
 </style>

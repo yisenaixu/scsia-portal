@@ -18,7 +18,7 @@
               className="svgIcon"
               color="black"
             ></svg-icon>
-            <div class="search">
+            <div class="search_input">
               <input
                 v-model="value"
                 type="text"
@@ -162,7 +162,10 @@ export default {
 <style lang="scss" scoped>
 .search {
   flex: 1;
-  max-width: 1200px;
+  padding: 0 17vw;
+  @media screen and (min-width: 1440px) {
+    padding: 0 15vw;
+  }
   width: 100%;
   .noRes {
     margin-top: 24px;
@@ -256,7 +259,7 @@ export default {
         margin-top: 4px;
         background: rgba(189, 207, 255, 0.28);
         border-radius: 8px;
-        .search {
+        .search_input {
           margin-left: 8px;
           input {
             width: 80px;

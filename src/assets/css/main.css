@@ -2,3 +2,7 @@
   --main-bac: #fff;
   --second-bac: #fff;
 }
+
+body {
+  font-family: 'Microsoft YaHei', SimSun, '\5b8b\4f53', sans-serif;
+}

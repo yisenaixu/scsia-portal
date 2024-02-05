@@ -33,10 +33,7 @@ export default {
     },
   },
   mounted() {
-    window.scrollTo(0, 0)
-    console.debug('mounted')
     getSingleNews(this.$route.params.id).then(res => {
-      console.log(res)
       this.newsDetail = res.data
       this.isLoad = true
     })
@@ -45,13 +42,14 @@ export default {
 </script>
 <style lang="scss" scoped>
 .newsDetail {
-  margin: 0 auto;
+  margin: 16px auto;
   width: 100%;
   padding: 8px;
   .title {
     font-size: 32px;
     font-weight: 600;
     text-align: center;
+    margin-bottom: 12px;
   }
   .time {
     font-size: 14px;
@@ -60,7 +58,13 @@ export default {
     margin: 16px 0;
   }
   .html {
-    :deep(p) {
+    :deep(p),
+    :deep(h1),
+    :deep(h2),
+    :deep(h3),
+    :deep(h4),
+    :deep(h5),
+    :deep(h6) {
       text-indent: 2em;
     }
   }

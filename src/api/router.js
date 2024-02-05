@@ -60,13 +60,24 @@ export function getFiles(id) {
 }
 /**
  * @description 根据图片栏目id获取图片栏目内容
+ * @param {number} picNaviId
+ */
+export function getPictures(picNaviId) {
+  return request({
+    url: '/portal/pictures/except',
+    method: 'get',
+    params: { picNaviId },
+  })
+}
+
+/**
+ * @description 根据图片id获取详情
  * @param {number} id
  */
-export function getPictures(id) {
+export function getPicContent(id) {
   return request({
-    url: '/portal/pictures',
+    url: `/portal/picture/${id}`,
     method: 'get',
-    params: { id },
   })
 }
 
