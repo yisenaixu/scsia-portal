@@ -11,11 +11,11 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: {
         '/portal': {
-          target: 'http://120.76.192.186:8080/',
+          target: 'http://man.scsia.org/dev-api',
           changeOrigin: true,
         },
         '/dev-api/profile': {
-          target: 'http://120.76.192.186:8080/',
+          target: 'http://man.scsia.org/dev-api',
           changeOrigin: true,
           rewrite: path => path.replace(/^\/dev-api/, ''),
         },

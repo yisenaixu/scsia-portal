@@ -28,13 +28,14 @@
         </div>
       </a-carousel>
     </div>
-    <div v-html="htmlRegex" class="html"></div>
+    <div v-html="htmlRegex" class="html ql-editor"></div>
   </div>
 </template>
 <script>
 import { transformHtml } from '../utils/common'
 import { getPicContent } from '../api/router'
 import { Carousel } from 'ant-design-vue'
+import 'quill/dist/quill.snow.css'
 export default {
   name: 'imgDetail',
   data() {
@@ -71,10 +72,10 @@ export default {
   width: 100%;
   padding: 8px;
   .title {
-    font-size: 32px;
+    font-size: 24px;
     font-weight: 600;
-    text-align: center;
     margin-bottom: 12px;
+    text-align: center;
   }
   .imgs-layout {
     width: 100%;

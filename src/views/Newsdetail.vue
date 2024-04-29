@@ -2,7 +2,7 @@
   <div class="newsDetail" v-if="isLoad">
     <div class="title">{{ newsDetail?.newsTitle }}</div>
     <div class="time">发布时间:{{ newsDetail?.newsTime?.split(' ')[0] }}</div>
-    <div v-html="htmlRegex" class="html"></div>
+    <div v-html="htmlRegex" class="html ql-editor"></div>
     <div class="attach" v-if="attachments.length !== 0">
       <div class="title">附件:</div>
       <div v-for="at in attachments" :key="at.url">
@@ -16,6 +16,7 @@
 <script>
 import { transformHtml } from '../utils/common'
 import { getSingleNews } from '../api/router'
+import 'quill/dist/quill.core.css'
 export default {
   name: 'newsDetail',
   data() {
@@ -46,10 +47,10 @@ export default {
   width: 100%;
   padding: 8px;
   .title {
-    font-size: 32px;
+    font-size: 24px;
     font-weight: 600;
-    text-align: center;
     margin-bottom: 12px;
+    text-align: center;
   }
   .time {
     font-size: 14px;
@@ -66,6 +67,9 @@ export default {
     :deep(h5),
     :deep(h6) {
       text-indent: 2em;
+    }
+    :deep(img) {
+      transform: translateX(-1em);
     }
   }
   .attach {

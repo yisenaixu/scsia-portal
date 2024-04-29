@@ -19,7 +19,6 @@ export function tranformRoute(routes) {
   let newRoutes = routes
     .filter(item => item.naviIsOut !== 1)
     .map(item => {
-      console.debug(item)
       const { id, naviName, naviUrl, naviType, parentId, children } = item
       let transChildren = []
       if (children && children.length > 0) {
@@ -51,7 +50,11 @@ export function tranformRoute(routes) {
           name: `${naviUrl}详情`, //约定的路由命名
           component: modules['../views/Newsdetail.vue'],
         })
-        store.commit('setHomeNaviIds', { id: id, title: naviName })
+        store.commit('setHomeNaviIds', {
+          id: id,
+          title: naviName,
+          url: naviUrl,
+        })
       }
       // 图片页面添加详情页
       if (naviType === 4) {

@@ -7,5 +7,5 @@ export function transformHtml(str) {
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
     .replace(/&amp;/g, '&')
-    .replace(/&nbsp;/g, '')
+    .replace(/&nbsp;/g, ' ')
 }

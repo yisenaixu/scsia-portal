@@ -18,12 +18,11 @@
             :key="item"
             v-show="index !== 0"
           >
-            {{ console.debug($route.matched) }}
             <router-link
               v-if="!item.path.includes(':')"
               :to="item.path"
               :class="{ active: index === $route.matched.length - 1 }"
-              >{{ item.meta.title }}</router-link
+              >{{ item.meta.title.replace(/[_\.\-]/gi, '') }}</router-link
             >
             <span
               v-else
@@ -79,7 +78,7 @@ export default {
     padding: 0 15vw;
   }
   width: 100%;
-  overflow: hidden;
+  /* overflow: hidden; */
   .ba-img {
     left: 0;
     width: 100%;
@@ -97,7 +96,8 @@ export default {
     .info {
       margin-left: 1em;
       margin-top: 30px;
-      width: 80%;
+      /* width: 80%; */
+      flex: 1;
       min-height: 600px;
       position: relative;
       .crumb-nav {

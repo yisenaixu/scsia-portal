@@ -5,24 +5,19 @@
     @mouseleave="isHover = false"
   >
     <div class="extar-buttons" v-if="routeUrl.length !== 0">
-      <TransitionGroup
-        enter-active-class="animate__animated animate__fadeInDown"
-        leave-active-class="animate__animated animate__fadeOutUp"
+      <div
+        class="extar-buttons-item"
+        v-show="isHover"
+        v-for="u in urls"
+        :key="u.title"
       >
-        <div
-          class="extar-buttons-item"
-          v-show="isHover"
-          v-for="u in urls"
-          :key="u.title"
-        >
-          <a v-if="u.type === 'out'" :href="u.url" target="_blank">{{
-            u.title
-          }}</a>
-          <router-link v-if="u.type === 'in'" :to="`${routeUrl}/${u.url}`">
-            {{ u.title }}
-          </router-link>
-        </div>
-      </TransitionGroup>
+        <a v-if="u.type === 'out'" :href="u.url" target="_blank">{{
+          u.title
+        }}</a>
+        <router-link v-if="u.type === 'in'" :to="`${routeUrl}/${u.url}`">
+          {{ u.title }}
+        </router-link>
+      </div>
     </div>
     <div class="button">
       <router-link class="link" :to="routeUrl">
@@ -44,13 +39,8 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.animate__fadeInDown,
-.animate__fadeOutUp {
-  animation-duration: 0.3s;
-}
 .nav-button {
   // padding: 24px;
-  margin: 0 16px;
   font-size: 18px;
   font-weight: 600;
   z-index: 999;
@@ -59,9 +49,8 @@ export default {
     position: relative;
     user-select: none;
     cursor: pointer;
-    min-width: 90px;
+    min-width: 200px;
     height: 40px;
-    padding: 0 8px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -89,6 +78,7 @@ export default {
     }
   }
   .extar-buttons-item {
+    background: rgba(255, 255, 255, 0.8);
     font-size: 18px;
     font-weight: 500;
     position: relative;
@@ -111,7 +101,7 @@ export default {
     }
   }
   .extar-buttons {
-    padding-top: 80px;
+    padding-top: 40px;
     position: absolute;
     width: 200px;
     left: 50%;

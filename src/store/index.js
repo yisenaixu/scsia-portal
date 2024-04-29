@@ -11,11 +11,12 @@ const store = createStore({
     // 主页新闻数据
     homeData: {
       news: [],
+      slides: [],
     },
     // 整体搜索结果
     searchResult: [],
     //传给单栏目新闻的搜索结果
-    searchList: JSON.parse(localStorage.getItem('list')),
+    searchList: JSON.parse(localStorage.getItem('list')) ?? [],
   },
   mutations: {
     update(state, payload) {
@@ -53,7 +54,7 @@ const store = createStore({
             picUrl: item.newsPic,
           }))
           commit('updateHome', {
-            key: state.homeNewsNavis[i].title,
+            key: state.homeNewsNavis[i].url,
             value: newsList,
           })
         })

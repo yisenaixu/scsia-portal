@@ -25,13 +25,13 @@ export function getAbout(id) {
  * @param {number} pageSize
  * @param {number} current
  */
-export function getNews(id, pageSize, current) {
+export function getNews(id, pageSize, pageNum) {
   return request({
     url: `/portal/news/${id}`,
     method: 'get',
     params: {
       pageSize,
-      current,
+      pageNum,
     },
   })
 }
@@ -51,11 +51,11 @@ export function getSingleNews(id) {
  * @description 根据文件栏目id获取文件栏目内容
  * @param {number} id
  */
-export function getFiles(id) {
+export function getFiles(id, pageSize, pageNum) {
   return request({
     url: '/portal/files',
     method: 'get',
-    params: { id },
+    params: { id, pageSize, pageNum },
   })
 }
 /**

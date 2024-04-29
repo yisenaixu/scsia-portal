@@ -2,12 +2,13 @@
   <div class="about">
     <div class="container">
       <div class="title">{{ title }}</div>
-      <div v-html="htmlRegex" class="html"></div>
+      <div v-html="htmlRegex" class="html ql-editor"></div>
     </div>
   </div>
 </template>
 <script>
 import { getAbout } from '../api/router'
+import 'quill/dist/quill.snow.css'
 import { transformHtml } from '../utils/common'
 export default {
   name: 'About',

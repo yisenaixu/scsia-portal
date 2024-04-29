@@ -8,10 +8,10 @@
     <div class="nav-right">
       <div class="login-button">
         <button>
-          <a href="http://man.dkelab.cn/login">登录</a>
+          <a href="http://man.scsia.org/login">登录</a>
         </button>
         <button>
-          <a href="http://man.dkelab.cn/register">注册</a>
+          <a href="http://man.scsia.org/register">注册</a>
         </button>
       </div>
       <div class="nav-search" :class="{ active: inputFocus }">
@@ -33,20 +33,16 @@
       </div>
     </div>
   </div>
-  <div
-    class="nav-bottom"
-    @mouseenter="$refs.bg.style.height = `${maxNavChildrenHeight * 45}px`"
-    @mouseleave="$refs.bg.style.height = 0"
-  >
+  <div class="nav-bottom">
     <div class="container">
       <nav-button
         v-for="nav in navs"
         :key="nav"
-        :routeName="nav.title"
+        :routeName="nav.title.replace(/[_\.\-]/gi, '')"
         :routeUrl="nav.url"
         :urls="nav?.children"
       ></nav-button>
-      <div ref="bg" :class="{ bg: true, bgHover: isShow }"></div>
+      <!-- <div ref="bg" :class="{ bg: true, bgHover: isShow }"></div> -->
     </div>
   </div>
 </template>
@@ -68,12 +64,12 @@ export default {
   },
   computed: {
     ...mapState(['navs']),
-    maxNavChildrenHeight() {
-      return this.navs.reduce((max, cur) => {
-        const length = cur?.children?.length ?? 0
-        return length > max ? length : max
-      }, 0)
-    },
+    // maxNavChildrenHeight() {
+    //   return this.navs.reduce((max, cur) => {
+    //     const length = cur?.children?.length ?? 0
+    //     return length > max ? length : max
+    //   }, 0)
+    // },
   },
   methods: {
     ...mapMutations(['setSearchResult', 'setSearchList']),

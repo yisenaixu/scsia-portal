@@ -7,7 +7,10 @@
           <div class="link">下载链接</div>
         </div>
         <div class="list-item" v-for="file in files" :key="file">
-          <div class="name">{{ file?.fileTitle }}</div>
+          <div class="name">
+            <template v-if="file?.fileTags"> [{{ file?.fileTags }}] </template>
+            {{ file?.fileTitle }}
+          </div>
           <div class="link">
             <a :href="`/dev-api${file.fileUrl}`" download> 点击下载 </a>
           </div>
@@ -15,7 +18,7 @@
       </div>
       <div v-if="total > 0" class="pagination">
         <a-pagination
-          v-model:current="current"
+          v-model:current="pageNum"
           v-model:page-size="pageSize"
           show-quick-jumper
           :total="total"
@@ -42,7 +45,7 @@ export default {
   data() {
     return {
       files: '',
-      current: 1,
+      pageNum: 1,
       pageSize: 10,
       total: 0,
     }
@@ -50,6 +53,20 @@ export default {
   computed: {
     baseURL() {
       return baseURL
+    },
+  },
+  watch: {
+    pageNum(cur) {
+      getFiles(this.$route.meta.id, this.pageSize, cur).then(res => {
+        this.files = res.rows
+        this.total = res.total
+      })
+    },
+    pageSize(cur) {
+      getFiles(this.$route.meta.id, cur, this.current).then(res => {
+        this.files = res.rows
+        this.total = res.total
+      })
     },
   },
 }
@@ -72,12 +89,16 @@ export default {
         }
         &:first-child {
           background: #eaeaea;
+          .name {
+            justify-content: center;
+          }
         }
         .name {
           flex: 2;
           display: flex;
+          margin-left: 12px;
           align-items: center;
-          justify-content: center;
+          justify-content: start;
           border-right: 1px solid rgba(0, 0, 0, 0.15);
         }
         .link {

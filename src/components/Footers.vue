@@ -13,6 +13,7 @@
         <div class="info">
           电话：028-86623615 传真：028-86623615 邮箱：scrjxh@sina.com
         </div>
+        <div class="info">上次更新时间: {{ updateTime }}</div>
       </div>
     </div>
   </div>
@@ -23,6 +24,9 @@ export default {
   name: 'footers',
   computed: {
     ...mapGetters(['navs']),
+    updateTime() {
+      return new Date(document.lastModified).toLocaleString()
+    },
   },
 }
 </script>

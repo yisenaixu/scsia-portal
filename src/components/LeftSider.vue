@@ -1,12 +1,12 @@
 <template>
   <div class="rightSider">
-    <Link classNames="big" :title="title" :to="to" />
+    <Link classNames="big" :title="title.replace(/[_\.\-]/gi, '')" :to="to" />
     <slot></slot>
     <Link
       v-for="link in links"
       :key="link.to"
       :to="link.to"
-      :title="link.title"
+      :title="link.title.replace(/[_\.\-]/gi, '')"
       :classNames="
         $route.meta.title === link.title ||
         decodeURIComponent($route.path).includes(link.title)
@@ -41,7 +41,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .rightSider {
-  width: 15%;
+  /* width: 15%; */
+  width: 200px;
   min-width: 180px;
   background: #f2f2f2;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;

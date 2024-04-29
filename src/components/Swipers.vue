@@ -64,13 +64,17 @@ export default {
   },
   methods: {
     go(href, id) {
-      if (!href) this.$router.push({ name: '行业资讯详情', params: { id: id } })
+      if (!href)
+        this.$router.push({ name: `${this.tab}详情`, params: { id: id } })
     },
   },
   props: {
     items: {
       required: true,
       type: Array,
+    },
+    tab: {
+      type: String,
     },
     arrows: {
       type: Boolean,

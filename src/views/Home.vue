@@ -13,7 +13,8 @@
         <div class="swiper">
           <Swipers
             :showBottom="true"
-            :items="news"
+            :items="homeData[currentTab]"
+            :tab="currentTab"
             :arrows="false"
             :dots="true"
             width="28em"
@@ -22,14 +23,14 @@
         </div>
         <div class="right">
           <div class="news-tab" style="height: 50px">
-            <template v-for="(navi, index) in homeNewsNavis" :key="navi.title">
+            <template v-for="(navi, index) in homeNewsNavis" :key="navi.url">
               <div
                 class="tab"
                 v-if="index < 4"
-                :class="{ active: currentTab === navi.title }"
-                @click="currentTab = navi.title"
+                :class="{ active: currentTab === navi.url }"
+                @click="currentTab = navi.url"
               >
-                {{ navi.title }}
+                {{ navi.title.replace(/[_\.\-]/gi, '') }}
               </div>
             </template>
           </div>
@@ -87,34 +88,16 @@
           </a>
           <div
             class="ser-con-item button"
-            @click="$router.push('/softwareService/evaluation_1')"
+            @click="$router.push('/MemberWindow/MemberWindow_0')"
           >
-            软件企业评估
+            入会须知
           </div>
           <div
             class="ser-con-item button"
-            @click="$router.push('/softwareService/evaluation_2')"
+            @click="$router.push('ServiceItems/ServiceItems_0')"
           >
-            软件产品评估
+            双软评估
           </div>
-          <!-- <div class="ser-con-item">
-            <Block
-              :news="homeData.subNews_1"
-              :title="homeNewsNavis[1].title"
-            ></Block>
-          </div>
-          <div class="ser-con-item">
-            <Block
-              :news="homeData.subNews_2"
-              :title="homeNewsNavis[2].title"
-            ></Block>
-          </div>
-          <div class="ser-con-item">
-            <Block
-              :news="homeData.subNews_3"
-              :title="homeNewsNavis[3].title"
-            ></Block>
-          </div> -->
         </div>
       </div>
       <div class="introduce-bg">
@@ -183,20 +166,22 @@ export default {
       )
     },
     news() {
-      return this.homeData[this.homeNewsNavis[0].title]?.map(news => {
-        return {
-          id: news.id,
-          picUrl: news.picUrl,
-          title: news.title,
-        }
-      })
+      return (
+        this.homeData[this.homeNewsNavis[0].url]?.map(news => {
+          return {
+            id: news.id,
+            picUrl: news.picUrl,
+            title: news.title,
+          }
+        }) ?? []
+      )
     },
   },
   methods: {
     ...mapActions(['fetchNews', 'fetchSlides', 'fetchLinks']),
   },
   created() {
-    this.currentTab = this.homeNewsNavis[0].title
+    this.currentTab = this.homeNewsNavis[0].url
     this.fetchSlides()
     this.fetchNews()
     this.fetchLinks()
