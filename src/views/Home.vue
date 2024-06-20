@@ -194,6 +194,11 @@ export default {
           name: this.vipTypes[i.type],
           count: i.count,
         }))
+      let total = 0
+      for (let i = this.vips.length - 1; i >= 0; i--) {
+        total += this.vips[i].count
+        this.vips[i].count = total
+      }
     })
     this.main_url = this.$router
       .getRoutes()
