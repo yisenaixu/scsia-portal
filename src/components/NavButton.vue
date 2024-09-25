@@ -20,7 +20,10 @@
       </div>
     </div>
     <div class="button">
-      <router-link class="link" :to="routeUrl">
+      <a v-if="type === 'out'" :href="routeUrl" target="_blank">
+        {{ routeName }}
+      </a>
+      <router-link v-else class="link" :to="routeUrl">
         {{ routeName }}
       </router-link>
     </div>
@@ -29,7 +32,7 @@
 <script>
 export default {
   name: 'NavButton',
-  props: ['routeName', 'routeUrl', 'urls'],
+  props: ['routeName', 'routeUrl', 'urls', 'type'],
   data() {
     return {
       isHover: false,

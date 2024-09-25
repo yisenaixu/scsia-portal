@@ -41,8 +41,8 @@
         :routeName="nav.title.replace(/[_\.\-]/gi, '')"
         :routeUrl="nav.url"
         :urls="nav?.children"
+        :type="nav.type"
       ></nav-button>
-      <!-- <div ref="bg" :class="{ bg: true, bgHover: isShow }"></div> -->
     </div>
   </div>
 </template>

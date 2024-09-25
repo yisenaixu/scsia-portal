@@ -14,6 +14,12 @@
           电话：028-86623615 传真：028-86623615 邮箱：scrjxh@sina.com
         </div>
         <div class="info">上次更新时间: {{ updateTime }}</div>
+        <div class="info">
+          <a href="http://beian.miit.gov.cn/">
+            Copyright © 2024 四川省软件行业协会 All Rights Reserved.
+            蜀ICP备15021446号-1
+          </a>
+        </div>
       </div>
     </div>
   </div>

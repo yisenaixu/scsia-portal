@@ -79,11 +79,23 @@ export function transformRoutesToNav(routes, extraRoute) {
   navs = routes
     ?.filter(item => item.naviIsShow !== 0)
     .map(item => {
+      let type, url
+      if (item.parentId === 0 && item.children && item.children.length > 0) {
+        type = item.children[0].naviIsOut === 1 ? 'out' : 'in'
+        url =
+          item.children[0].naviIsOut === 1
+            ? item.children[0].naviUrl
+            : `/${item.naviUrl}`
+      } else {
+        type = item.naviIsOut === 1 ? 'out' : 'in'
+        url = item.naviUrl
+      }
       let nav = {
         title: item?.naviName,
-        url: item.parentId === 0 ? `/${item.naviUrl}` : item.naviUrl,
-        type: item.naviIsOut === 1 ? 'out' : 'in',
+        url,
+        type,
       }
+      console.warn(nav)
       if (item.children && item.children.length > 0) {
         nav.children = transformRoutesToNav(item.children)
       }

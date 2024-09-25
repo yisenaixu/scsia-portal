@@ -98,6 +98,9 @@
           >
             双软评估
           </div>
+          <a href="https://www.szzjk.cn/">
+            <div class="ser-con-item button">专家邀约</div>
+          </a>
         </div>
       </div>
       <div class="introduce-bg">
@@ -401,7 +404,7 @@ export default {
     margin-top: 2em;
     .ser-container {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 36px;
       .button {
         height: 86px;
